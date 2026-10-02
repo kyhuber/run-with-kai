@@ -42,7 +42,7 @@ window.GOAL_PACE = "7:42";
 // the rule: the last COMPLETE day, never the day the pull ran.
 window.DATA_THROUGH = "2026-09-18";
 
-// Logged runs. Seeded from Apple Health; latest pull Sep 14, 2026 via the
+// Logged runs. Seeded from Apple Health; latest merge Oct 2, 2026 (the Sep 19 evening exports) via the
 // run-health-exports Drive pipeline (see skills/run-training-analysis/SKILL.md).
 // Runs under 1.0 mi are excluded (accidental / partial recordings).
 // Fields: date (YYYY-MM-DD), dist (mi), mins — hrAvg / hrMax / elev optional.
@@ -536,10 +536,30 @@ window.SEEDED_ACTUALS = [
   //
   // hrAvg 145 with 9:12 in Zone 4 and nothing at all in Zone 5, on a run that hurt -- the
   // cardiovascular side of this was never the problem.
+  //
+  // CORRECTED Oct 2, from the Sep 19 evening exports (1622 and 1715b) that were written after
+  // the race commit and never merged. Kai's corrected account: he did not just slow and adjust
+  // at mile 6 -- he paused the watch and rested, unsure whether he could keep running, and at
+  // the time assumed the problem was the joint. He then pushed into miles 7-8, which the plan
+  // had at race pace, without quite hitting it. So mile 7's 8:14 is the planned race-pace
+  // segment taken straight after the pause, not a pain-driven surge, and its 172 spm is the
+  // session's highest cadence. `mins` was already moving time, so the pause changes no
+  // measurement. The re-pull read 8.02 mi, 144 avg and 925 kcal against this row's 8.01 and
+  // 145 from the Sep 14 pull -- two HealthKit reads of one workout, a beat and a hundredth
+  // apart -- and the earlier pull stays as the record rather than reconciling the two. The
+  // watch's 9th split, the few steps past 8.00 mi, is confirmed by Kai as an artifact; it
+  // stays below as the 0.01 mi fragment it is and carries no weight. Running dynamics for the
+  // whole run, from the Workout Details screen (no schema field): vertical oscillation 9.1 cm
+  // avg (8.5-10.6), ground contact 283 ms avg (232-323), stride length 1.0 m avg (0.8-1.2).
+  // The waveforms show a clean marker at the pause rather than a blank stretch, consistent
+  // with the watch being stopped outright -- unlike the race six days later.
   {date:"2026-09-13", dist:8.01, mins:74.67, hrAvg:145, hrMax:169, cadenceAvg:169,
    note:"Started late in the evening, so the run went from 11:08pm into after midnight. " +
         "Knee pain (upper medial) from about mile 6 — the first pain during a run this block. " +
-        "Slowed, adjusted foot-strike, paused once to rub the knee; it mostly eased and he finished.",
+        "Paused the watch and rested, unsure whether he could keep running, then pushed into " +
+        "miles 7–8, which the plan had at race pace, without quite hitting it. Finished with no " +
+        "further pain, and none since. (Corrected on Sep 19 from an earlier account that said " +
+        "he only slowed and adjusted his foot-strike.)",
    flags:[
      "Knee pain (upper medial) at ~mile 6 -- no consistent running before this training block; biking, backpacking and skiing without pain.",
      "Planned quality (last 2mi @ goal pace, target band 7:49-8:04/mi) not held: mile 7 ran 8:14/mi, mile 8 ran 9:21/mi -- both outside the band, most likely tied to the knee pain onset rather than a pacing miss.",
@@ -548,6 +568,12 @@ window.SEEDED_ACTUALS = [
      "Running power by mile (W, non-schema metric): 222, 264, 192, 240, 230, 204, 278, 238, 241 (final partial).",
      "Post-workout recovery HR: 157 at 0:27, 128 at 1 min, 116 at 2 min.",
      "Reviewed by his PT on Sep 15 and cleared to race -- not a long-term blocker. The clinical detail is kept out of this repo.",
+     "Mile 7's surge (8:14/mi, 172 spm -- the session's highest cadence, above the 167-170 baseline everywhere else) is the planned race-pace segment from the training plan, pushed into right after the pause, not an unplanned or purely pain-driven effort.",
+     "Peak HR 169 bpm during this training run, close to the 173 bpm max on race day itself -- the prescribed race-pace miles pushed him nearly to race intensity in training.",
+     "A 9th split shown on the watch (8:33/mi, no HR, 157 spm, ~241W) is confirmed by Kai as an artifact of the last few steps past 8.00 mi before he stopped the watch -- disregarded entirely, not entered as a partial split.",
+     "Running dynamics, whole-workout avg/range (Workout Details screen, no schema field): vertical oscillation avg 9.1cm (range 8.5-10.6), ground contact time avg 283ms (range 232-323), stride length avg 1.0m (range 0.8-1.2).",
+     "Unlike the Sep 19 race -- where the running-dynamics waveforms show a blank gap during the walk, because the watch kept recording through slow continued movement -- this run's waveform shows a clean marker with no blank stretch. Consistent with Kai's corrected account that he paused the watch outright rather than continuing to move; mechanically distinct from the race-day stop.",
+     "Both vertical oscillation and ground contact time reach a peak roughly 15-25% above their own day's average near the pause point, proportionally similar to race day despite this run being far easier overall -- suggestive of a repeatable gait signature tied to the developing knee irritation rather than pure fatigue. Can't be cleanly isolated here, though: Kai deliberately pushed into a hard effort (planned race-pace miles) immediately after resuming, which would elevate the same metrics for an unrelated reason.",
    ],
    splits:[
      {mi:1, mins:9.617, hrAvg:133},
@@ -653,13 +679,39 @@ window.SEEDED_ACTUALS = [
   // departure from the Sep 13 row. Fourteen paired values do not survive being flattened into
   // a sentence, and cadence is a named intervention in the knee plan — it belongs beside the
   // mile it was measured on. Nothing reads these fields yet; they are recorded, not rendered.
+  //
+  // CORRECTED Oct 2, from three Sep 19 evening exports (1715a, 1750-corrects, 1805-corrects)
+  // written after the race commit and never merged. Two things change the reading above, and
+  // one closes a loose end.
+  //   Around mile 8, maybe 8.5, with the pain bad enough that he doubted he would finish, Kai
+  //   took a painkiller he had carried as a race-day contingency -- the first and only
+  //   medication of the block -- rubbed the quad, walked, and worked back into running. His
+  //   form felt more natural from there and the knee did not hurt again. So the "resolved
+  //   rather than accumulated" read of the closing miles above is now potentially pain-masked
+  //   rather than confirmed: what he took typically starts working within 20-30 minutes and
+  //   builds over 60-90, which overlaps the remaining 35-40 minutes of the race almost exactly.
+  //   The power, HR and pace are still real and measured; only their use as evidence of an
+  //   uninjured closing stretch is in question. The pain-free days since stand on their own.
+  //   The export names the medication; this repo does not, and the flag below is paraphrased
+  //   to the same end rather than kept verbatim.
+  //   The mid-race self-massage was the quad, not the joint. "Rubbed the knee" in one of his
+  //   accounts was a slip, per Kai.
+  //   Running dynamics for the whole race, from the Workout Details screen (no schema field):
+  //   vertical oscillation 9.8 cm avg (8.7-12.2), ground contact 252 ms avg (213-312), stride
+  //   length 1.2 m avg (0.8-1.5). All three waveforms show a blank gap lining up with the
+  //   eight-minute walk -- the watch kept recording through slow movement rather than being
+  //   paused, unlike Sep 13 -- and all three trend up into the gap, with a smaller version of
+  //   the same rise near the same point on Sep 13. Confounded on both runs by effort changes in
+  //   the same window, so suggestive of a gait signature, not confirmed.
   {date:"2026-09-19", segment:"race", dist:13.22, mins:105.75, hrAvg:153, hrMax:173,
    officialTime:"1:45:51.49", courseMi:13.1,
    note:"Brooks Orca Half Marathon, Lincoln Park to Don Armeni. Started deliberately slow, " +
         "settled into race pace and felt strong. Knee pain began around mile 6 and worsened " +
         "progressively until he had to stop and walk — barely able to walk at points — and " +
-        "rubbed the quad to settle it. Around mile 8 he thought he would not finish. He worked " +
-        "back into running, had no further knee pain for the rest of the race, felt strong " +
+        "rubbed the quad to settle it. Around mile 8 he thought he would not finish, and took a " +
+        "painkiller he had carried for race day — the only medication of the block. He worked " +
+        "back into running, his form felt more natural from there, he had no further knee pain " +
+        "for the rest of the race, felt strong " +
         "with plenty left, and closed with his three fastest miles. No knee pain at any point " +
         "since finishing. Zone-1 recovery: 170 bpm at stop, 141 at 1 min, 131 at 2 min.",
    flags:[
@@ -670,6 +722,13 @@ window.SEEDED_ACTUALS = [
      "CADENCE — full range across the race is 167-171 spm running (150 spm mile 8 and 160 spm mile 9 are the walking miles). Cadence moved 1.8% while pace moved 15% between mile 7 (7:46, 167 spm) and mile 13 (6:40, 170 spm). Kai changes speed almost entirely through stride length, not turnover.",
      "Derived per-step stride length (pace/cadence, not measured): miles 3-7 approx 1.23-1.25 m; miles 11-13 approx 1.27-1.42 m. Stride was LONGER in the pain-free closing block than in the block where pain developed, so a simple overstriding explanation for the mile-6 onset is not supported by this data.",
      "The 167-170 spm values in miles 3-7 match the 'sagging into the high 160s' pattern already noted in the project baseline, but the spread against the closing miles is small enough (3 spm) that it should be treated as weak evidence, not a cause.",
+     "Around mile 8-8.5, with pain severe enough that he doubted he would finish, Kai took a painkiller he had carried as a race-day contingency -- not taken at any earlier point in training -- rubbed the leg, walked briefly, and worked back into running. This means the 'resolved under load' pattern in miles 9-13 -- rising power, falling HR, no reported pain -- should be read as potentially pain-masked rather than confirmed spontaneous resolution; its typical onset and peak overlap the remaining ~35-40 min of the race. The power/HR/pace data itself is still real and measured; only its use as evidence of an efficient, uninjured closing stretch is now in question. Not a diagnosis and not medical advice. (Paraphrased: the export names the medication, this repo does not.)",
+     "Resolved: the mid-race self-massage was the quad, not the knee joint. 'Rubbed the knee' in an earlier account was a slip, per Kai.",
+     "Running dynamics, whole-workout avg/range (Workout Details screen, no schema field): vertical oscillation avg 9.8cm (range 8.7-12.2), ground contact time avg 252ms (range 213-312), stride length avg 1.2m (range 0.8-1.5).",
+     "The vertical-oscillation/ground-contact-time/stride-length waveforms all show a visible blank gap lining up with that ~8 min walk -- independent confirmation of the stop from a different sensor stream than heart rate. This is a blank gap (no data), not a marker -- consistent with Kai continuing to move (walking) rather than pausing the watch, unlike Sep 13.",
+     "All three waveforms trend up (more oscillation, more ground contact time, and stride length climbs after) in the stretch leading into the gap, then the pattern partially repeats -- a smaller version of the same rise -- near the same relative point on the Sep 13 run. Confounded on both by effort changes around the same window, so treat as suggestive of a gait signature rather than confirmed.",
+     "Derived (pace x cadence, not measured): total footstrikes to mile 6 were ~8,050 on race day vs. ~9,550 on the Sep 13 taper run to its mile 6 -- footstrike count does NOT line up between the two pain-onset points as tightly as raw mileage does (6.0 mi both times), arguing for distance/mileage itself as the trigger over cumulative load cycles.",
+     "No swelling, no pain at rest, no pain since finishing, as of the day after.",
    ],
    splits:[
      {mi:1, mins:8.55, hrAvg:149, powerW:241, cadenceSpm:171},

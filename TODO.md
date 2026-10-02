@@ -29,10 +29,10 @@ each phase.
       skill's principles for you to approve.
 - [ ] **Block 1 goal pace**, if you want one. It is `null` today, which the brief allows: no goal
       lines, no projected finish. The two benchmarks already project a 5K of roughly 22–23 minutes.
-- [ ] **Five race-day exports were never merged.** `export-2026-09-19-1622`, `-1715a`, `-1715b`,
-      `-1750-corrects` and `-1805-corrects` in `run-health-exports` postdate the commit that
-      logged the race. Claude Code will read them through the Drive connector and merge whatever
-      they add (likely Kai's account and corrections) in a small data PR after Phase 2.
+- [x] **The Sep 19 evening exports are merged** (data PR after Phase 2). They corrected Kai's
+      account of the Sep 13 pause, added running dynamics for both runs, and recorded the
+      mid-race painkiller that may have masked the closing miles. The archive copy is left as
+      the snapshot it is.
 
 ## Before Phase 3 (new views)
 
