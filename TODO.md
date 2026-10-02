@@ -6,8 +6,8 @@ each phase.
 
 ## Now: finish Phase 0 (new repo)
 
-- [ ] **Review and merge the import.** Open a PR from `claude/affectionate-lamport-exlnew` into
-      `main` on `kyhuber/run-with-kai`. The diff against the old repo is three things: the
+- [ ] **Review and merge the import:** [kyhuber/run-with-kai#1](https://github.com/kyhuber/run-with-kai/pull/1).
+      The diff against the old repo is three things: the
       approved privacy redactions in `data.js` and `index.html`, the repo and Drive-folder renames,
       and the generic skill at `skills/run-training-analysis/SKILL.md`. Merge it.
 - [ ] **Turn on GitHub Pages.** Settings → Pages → Build and deployment → Deploy from a branch,
