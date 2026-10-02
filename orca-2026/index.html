@@ -339,15 +339,21 @@
     .s-right{flex:1 1 100%; min-width:0; text-align:left; margin-top:8px;}
     .s-actual{margin-top:4px;}
   }
-  .archive-link{display:inline-block; margin-top:6px; font-family:var(--font-mono); font-size:0.78rem;
-    color:var(--teal); text-decoration:none;}
-  .archive-link:hover{text-decoration:underline;}
+  /* Archive banner: this copy is frozen at the post-race state and links back to the live site. */
+  .archive-banner{margin:0 0 18px; padding:10px 14px; border:1px solid var(--border); border-radius:10px;
+    font-family:var(--font-mono); font-size:0.78rem; line-height:1.55; color:var(--text-dim);}
+  .archive-banner b{color:var(--text); font-weight:600;}
+  .archive-banner a{color:var(--teal); text-decoration:none; white-space:nowrap;}
+  .archive-banner a:hover{text-decoration:underline;}
 </style>
 </head>
 <body>
 
 <div class="orca-dash">
   <div class="wrap">
+
+    <p class="archive-banner"><b>Archived</b> — Orca Half Marathon, Sep 19, 2026 · Finished 1:45:51 ·
+      <a href="../">← Run with Kai</a></p>
 
     <div class="hero">
       <svg class="fin" viewBox="0 0 48 48" fill="none">
@@ -358,7 +364,6 @@
         <p class="eyebrow">Orca Half Marathon · Seattle</p>
         <h1>Training Dashboard</h1>
         <p class="sub">Race day: Saturday, September 19, 2026</p>
-        <a class="archive-link" href="orca-2026/">Archived copy of this dashboard →</a>
       </div>
     </div>
 
@@ -880,7 +885,7 @@
   const SEEDED_ACTUALS = window.SEEDED_ACTUALS || [];
   const CROSS_TRAINING = window.CROSS_TRAINING || [];
 
-  const STORAGE_KEY = "dashboard-state";
+  const STORAGE_KEY = "orca-2026-dashboard-state";
   // Goal pace is a property of the plan, not of this browser — it lives in
   // data.js so it reads the same on every device. parsePace is hoisted.
   const GOAL_PACE = parsePace(window.GOAL_PACE) || 7.9333;

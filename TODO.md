@@ -4,39 +4,29 @@ Claude Code can only work inside this repo. Everything below is a step only you 
 order it needs to happen. Tick items off as you go; Claude Code updates this file at the end of
 each phase.
 
-## Now: finish Phase 0 (new repo)
+## Phase 0 — done (Oct 1–2)
 
-- [ ] **Review and merge the import:** [kyhuber/run-with-kai#1](https://github.com/kyhuber/run-with-kai/pull/1).
-      The diff against the old repo is three things: the
-      approved privacy redactions in `data.js` and `index.html`, the repo and Drive-folder renames,
-      and the generic skill at `skills/run-training-analysis/SKILL.md`. Merge it.
-- [ ] **Turn on GitHub Pages.** Settings → Pages → Build and deployment → Deploy from a branch,
-      `main`, `/ (root)`. Then check that https://kyhuber.github.io/run-with-kai/ loads on your
-      phone. Until Pages is on, the site URL in the README is a dead link.
-- [ ] **Replace the claude.ai skill.** In the claude.ai Running project, remove
-      `orca-training-analysis` and add the personal `run-training-analysis` skill from the end of
-      the Phase 0 session's final message. The personal copy is the only place Kai's health
-      history lives from now on; do not paste it into this repo.
-- [ ] **Rename the Drive folder** `orca-health-exports` to `run-health-exports`. The folder ID
-      does not change, so existing exports and the pipeline keep working. Do this before the next
-      phone export, or the iOS app will be writing to a folder name the skill no longer uses.
-- [ ] **Retire the old repo, last.** On `kyhuber/ORCA-Dashboard`: Settings → General → Danger
-      Zone → Change visibility → Private, then Archive from the same place. Do this only after
-      Pages is live here, because the old site and the old schema URL stop working the moment the
-      repo goes private.
+- [x] Import merged, GitHub Pages live at https://kyhuber.github.io/run-with-kai/
+- [x] Personal `run-training-analysis` skill uploaded to claude.ai; the Orca skill removed
+- [x] Drive folder renamed to `run-health-exports` (same folder ID)
+- [x] `ORCA-Dashboard` private and archived
+- [x] Official chip time (1:45:51.49) recorded on the Sep 19 row
 
-## Before Phase 1 and Phase 2 can start (target: before the next block, tentatively Mon Oct 5)
+## Phase 1 — in review
 
-Start a cloud session on `kyhuber/run-with-kai` (base branch `main`) and paste the refactor brief,
-or ask for "Phase 1". Each phase lands on its own branch and PR for you to review and merge.
+- [ ] **Review and merge the Phase 1 PR** (freeze the Orca dashboard at `/orca-2026/`, link it
+      from the root page). Open https://kyhuber.github.io/run-with-kai/orca-2026/ on your phone
+      after the Pages run finishes and check the plan, the actuals and the race result read as
+      before.
 
-Phase 1 (freeze the Orca dashboard at `/orca-2026/`) needs nothing from you beyond the review.
+## Phase 2 — blocks as the unit (Block 1 starts Sat Oct 3, so this is next)
 
-Phase 2 (blocks as the unit) needs these decisions before Claude Code can seed Block 1. It will
-stop and ask rather than guess:
+Confirmed Oct 1: **Block 1 runs Oct 3 to Nov 15, 2026, ends in a 5K, and keeps the long run
+through the block.** Still needed before Claude Code can seed it fully; it will stop and ask
+rather than guess:
 
-- [ ] **Block 1 dates and test.** Tentatively Oct 5 to Nov 15, 2026, ending in a 5K time trial.
-      Confirm or change the dates, the test distance and the test date.
+- [ ] **The 5K itself.** Assumed to be a time trial on Sun Nov 15 unless you name a race, a date
+      or a course.
 - [ ] **Block 1 sessions.** Claude Code will not invent workouts. Until you supply them from the
       Running project in claude.ai, Block 1 ships with `plan: []` and `goalPace: null`.
 
@@ -83,6 +73,11 @@ stop and ask rather than guess:
       sessions do not depend on it being pasted. Say so in a session and Claude Code will add it.
 
 ## Open after the Orca block (not blocking the refactor)
+
+- [ ] **Late-October PT visit.** Two things come out of it: her review of the race-day knee
+      episode, which the run log says must happen before the next block is built in earnest, and
+      a **new strength plan oriented to running and skiing**. Until then, rows 3–10 of her 2024
+      sheet are the starting point, as she suggested. Both go in the personal skill, not here.
 
 - [ ] The Sep 19 race entry in `data.js` carries the watch time (1:45:45 for 13.22 mi). Swap in
       the official chip time when you have it.
