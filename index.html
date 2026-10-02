@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Orca Half Marathon — Training Dashboard</title>
+<title>Run with Kai</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,8 @@
      separately, so without it a fresh page can load a stale dataset -- and
      since the page now reads DATA_THROUGH from data.js, that pairing would
      silently fall back to calling unsynced sessions missed. -->
-<script src="data.js?v=20"></script>
+<script src="data.js?v=21"></script>
+<script src="blocks.js?v=1"></script>
 
 <style>
   :root{
@@ -95,12 +96,6 @@
     color:var(--teal); line-height:1;}
   .result-meta{font-family:var(--font-mono); font-size:0.88rem; color:var(--text-dim);}
   .result-meta b{color:var(--text-muted); font-weight:600;}
-  /* The knee sits above the splits on purpose. The monitoring rule says a finding like
-     this gets said plainly and early rather than buried under the pace analysis. */
-  .result-flag{margin:18px 0 0; padding:13px 15px; border-radius:10px;
-    background:var(--coral-dim); border:1px solid rgba(242,121,92,0.42);
-    font-size:0.87rem; line-height:1.55; color:var(--text-muted);}
-  .result-flag b{color:var(--coral);}
   .seg-table{margin-top:20px; border-top:1px solid var(--border);}
   .seg-row{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;
     padding:11px 2px; border-bottom:1px solid var(--border);}
@@ -157,58 +152,6 @@
   .history[open] .hist-arrow{transform:rotate(90deg);}
   .history-body{padding-top:18px;}
   @media (max-width:560px){ .hist-hint{display:none;} }
-
-  /* ---- race prep: fuelling and the PT's program ----
-     Reference material, not a daily read, so it lives behind the same disclosure
-     pattern as Training History and stays shut until the race week wants it. */
-  .prep-lede{color:var(--text-muted); font-size:0.88rem; line-height:1.6; margin:0 0 18px;}
-  .prep-lede b{color:var(--text);}
-
-  /* A callout that has to be seen before the list under it is acted on. Gold rather
-     than coral: this is a "not yet", not a warning. */
-  .prep-flag{display:flex; gap:12px; align-items:flex-start; background:var(--gold-dim);
-    border:1px solid rgba(239,194,90,0.34); border-radius:10px; padding:13px 15px; margin:0 0 18px;}
-  .prep-flag .pf-icon{flex:none; font-family:var(--font-mono); color:var(--gold); font-size:0.95rem; line-height:1.5;}
-  .prep-flag p{margin:0; font-size:0.85rem; line-height:1.6; color:var(--text);}
-  .prep-flag b{color:var(--gold);}
-
-  /* Two columns because that is how the PT wrote it -- strength and coordination
-     are done side by side, and splitting them into one list would lose that. */
-  .prep-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
-  .prep-col{background:var(--surface-2); border:1px solid var(--border); border-radius:10px; padding:16px 16px 8px;}
-  .prep-col h3{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase;
-    color:var(--teal); margin:0 0 12px; font-weight:600;}
-  .prep-ex{display:flex; gap:10px; align-items:baseline; padding:9px 0; border-top:1px solid var(--border);}
-  .prep-ex:first-of-type{border-top:none;}
-  .prep-ex .ex-name{flex:1; font-size:0.85rem; line-height:1.45; color:var(--text);}
-  .prep-ex .ex-name small{display:block; color:var(--text-dim); font-size:0.78rem; margin-top:2px;}
-  .prep-ex .ex-dose{flex:none; font-family:var(--font-mono); font-size:0.78rem; color:var(--text-muted); white-space:nowrap;}
-
-  /* The meal plan is a sequence, so it reads as one -- a rail with the days pinned to it. */
-  .meal-list{margin:0; padding:0; list-style:none;}
-  .meal-day{display:flex; gap:16px; padding:14px 0; border-top:1px solid var(--border);}
-  .meal-day:first-child{border-top:none; padding-top:2px;}
-  .meal-when{flex:none; width:92px; font-family:var(--font-mono); font-size:0.78rem; line-height:1.4; color:var(--teal);}
-  .meal-when span{display:block; color:var(--text-dim); font-size:0.72rem; margin-top:3px;}
-  .meal-what{flex:1; min-width:0; font-size:0.86rem; line-height:1.6; color:var(--text-muted);}
-  .meal-what b{color:var(--text); font-weight:600;}
-  .meal-what ul{margin:8px 0 0; padding-left:17px;}
-  .meal-what li{margin-bottom:5px;}
-  .meal-day.is-race .meal-when{color:var(--gold);}
-
-  /* The one number on race morning that is a decision rather than a meal. */
-  .fuel-hero{display:flex; align-items:baseline; gap:14px; background:var(--teal-dim);
-    border:1px solid rgba(53,214,190,0.32); border-radius:10px; padding:14px 16px; margin:0 0 16px;}
-  .fuel-hero .fh-mile{font-family:var(--font-mono); font-weight:600; font-size:1.3rem; color:var(--teal); line-height:1; white-space:nowrap;}
-  .fuel-hero .fh-body{flex:1; font-size:0.85rem; line-height:1.55; color:var(--text);}
-
-  @media (max-width:640px){
-    .prep-grid{grid-template-columns:1fr;}
-    .meal-day{flex-direction:column; gap:5px;}
-    .meal-when{width:auto;}
-    .meal-when span{display:inline; margin-left:6px;}
-    .fuel-hero{flex-direction:column; gap:8px;}
-  }
 
   /* ---- session rows ---- */
   .session{display:flex; flex-wrap:wrap; align-items:center; gap:14px; padding:12px 0; border-top:1px solid var(--border);}
@@ -342,8 +285,26 @@
   .archive-link{display:inline-block; margin-top:6px; font-family:var(--font-mono); font-size:0.78rem;
     color:var(--teal); text-decoration:none;}
   .archive-link:hover{text-decoration:underline;}
+  /* ---- blocks ---- */
+  .hero h1 .h1-block{color:var(--teal); font-weight:500;}
+  .hero > div{flex:1; min-width:0;}
+  .block-row{display:flex; flex-wrap:wrap; align-items:center; gap:8px 16px; margin:12px 0 0;}
+  /* A native select rather than a row of pills: three blocks already overflow a phone header. */
+  .block-pick{position:relative; display:block; flex:1 1 200px; max-width:340px; min-width:0;}
+  .block-pick select{appearance:none; -webkit-appearance:none; background:var(--surface-2); color:var(--text);
+    border:1px solid var(--border); border-radius:20px; padding:6px 30px 6px 13px;
+    font-family:var(--font-mono); font-size:0.78rem; cursor:pointer; width:100%; max-width:100%;}
+  .block-pick::after{content:"▾"; position:absolute; right:12px; top:50%; transform:translateY(-50%);
+    color:var(--teal); pointer-events:none; font-size:0.8rem;}
+  .block-pick select:focus-visible{outline:2px solid var(--teal); outline-offset:-2px;}
+  .goal-main{display:inline-flex; flex-wrap:wrap; align-items:baseline; gap:6px 8px;}
+  /* Runs outside any block, grouped by the gap they fall in. */
+  .gap-head{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--teal); margin:18px 0 4px;}
+  .gap-head:first-child{margin-top:0;}
+  .gap-empty{font-size:0.85rem; color:var(--text-dim); margin:6px 0 2px;}
 </style>
-</head>
+
 <body>
 
 <div class="orca-dash">
@@ -355,16 +316,19 @@
         <path d="M6 40 C 14 40 20 8 26 4 C 24 16 30 30 40 34 C 30 38 16 40 6 40 Z" stroke="var(--teal)" stroke-width="1.2" fill="none"/>
       </svg>
       <div>
-        <p class="eyebrow">Orca Half Marathon · Seattle</p>
-        <h1>Training Dashboard</h1>
-        <p class="sub">Race day: Saturday, September 19, 2026</p>
-        <a class="archive-link" href="orca-2026/">Archived copy of this dashboard →</a>
+        <p class="eyebrow" id="hero-eyebrow">Run with Kai</p>
+        <h1 id="hero-title">Run with Kai</h1>
+        <p class="sub" id="hero-sub"></p>
+        <div class="block-row">
+          <span class="block-pick"><select id="block-picker" aria-label="Training block"></select></span>
+          <span id="hero-links"></span>
+        </div>
       </div>
     </div>
 
     <div class="countdowns">
       <div class="count-card">
-        <p class="label" id="cd-race-label">Days to race</p>
+        <p class="label" id="cd-race-label">Days to test</p>
         <div class="num" id="cd-race">–</div>
         <p class="cap" id="cd-race-cap"></p>
       </div>
@@ -386,10 +350,7 @@
     </div>
 
     <div class="goal-row">
-      <span>Goal race pace</span> <b id="goal-display">7:42/mi</b>
-      <span class="goal-arrow">→</span>
-      <span>projected finish</span> <b id="goal-finish">1:40:56</b>
-      <span class="goal-note">set in <code>data.js</code> from the Aug 22 benchmark</span>
+      <span class="goal-main" id="goal-main"></span>
       <div class="unit-toggle" id="unit-toggle" role="group" aria-label="Distance units">
         <button type="button" data-unit="mi">mi</button><button type="button" data-unit="km">km</button>
       </div>
@@ -399,56 +360,28 @@
 
     <div class="phase-banner" id="phase-banner" hidden></div>
 
+    <!-- The test-day plan. Opt-in per block: it renders on the block's test date only, and only
+         when the block defines raceDayPlan and a goal pace to hang its bands on. -->
     <div class="card card-race" id="race-card" hidden>
-      <h2>Race Day</h2>
-      <p class="card-sub">Saturday, September 19 · Lincoln Park → Don Armeni Boat Launch</p>
+      <h2 id="race-title">Test day</h2>
+      <p class="card-sub" id="race-sub"></p>
       <div class="race-pace">
         <span id="race-goal">–</span>
         <span class="race-arrow">→</span>
         <span id="race-finish">–</span>
       </div>
       <ol class="race-plan" id="race-plan"></ol>
-      <p class="race-note"><b>Two cues, all day: knee straight, landing soft.</b> Foam roll the
-        quad before you start. Steer the knee straight ahead — and land absorbing the impact
-        rather than on a stiff knee. A soft landing is as much the instruction as a straight knee.
-        Foot strike is still not yours to manage — let it follow from the knee doing its job.
-        Reset both every few miles as a check-in. The PT has cleared this race: the default is
-        to finish. Stop only if something sharpens meaningfully or changes your stride, and if it
-        does, stop trying to push through it.</p>
-      <p class="race-note"><b>Cadence: keep the beat, drive with the lean.</b> 165–170 spm held
-        steady, pace changed by tipping forward from the ankles — that is your method and it is
-        sound. Most runners hold cadence and let stride carry the speed; 165–170 is a normal
-        number, and the 180 figure is an elite-racing observation that was never about you. The
-        music is equipment, not a luxury: it stops you drifting fast early and stops the cadence
-        sagging late, which are the two ways this race goes wrong. <b>Lean from the ankles, not
-        the waist</b> — hinging at the hips puts your foot out in front and moves work onto the
-        quad, the one muscle you are protecting. Whole body in a line. On the hill, keep the beat
-        and let the stride shorten; that is correct climbing form and the slower pace is planned.</p>
-      <p class="race-note"><b>Two gels. CAF at mile 5, plain at mile 9. Neither needs water</b> —
-        the hydrogel goes down without it, which is the property that matters: your attention
-        belongs on the knee, not on timing a cup grab. <b>Mile 5 (~39 min) is the caffeinated
-        one</b>, and it is first on purpose — caffeine peaks 30–60 minutes after you take it, so
-        from mile 5 it lands across miles 9 to the finish. <b>Mile 9 (~70 min) is plain</b>, fresh
-        carbohydrate before the last three miles. Two gets you to about 30 g of carbs an hour; one
-        would have been 15, which is under-fuelled for a 1:41 effort. Don't take a second
-        caffeinated one.</p>
-      <p class="race-note" id="race-check"></p>
-      <p class="race-note"><b>Run your own race from the gun.</b> In the benchmark you ran
-        <span id="race-gap">28 sec/mi</span> faster once you were on your own effort rather than a
-        partner's. Wish Doug well at the start and go.</p>
     </div>
 
     <div class="card card-result" id="result-card" hidden>
-      <h2>Race Result</h2>
-      <p class="card-sub">Brooks Orca Half Marathon · Lincoln Park → Don Armeni Boat Launch</p>
+      <h2 id="result-title">Result</h2>
+      <p class="card-sub" id="result-sub"></p>
       <div class="result-hero">
         <span class="result-time" id="result-time">–</span>
         <span class="result-meta" id="result-meta"></span>
       </div>
-      <p class="result-flag" id="result-knee"></p>
       <div class="seg-table" id="result-segs"></div>
-      <p class="race-note" id="result-read"></p>
-      <p class="race-note" id="result-next"></p>
+      <p class="race-note" id="result-link"></p>
     </div>
 
     <div class="card card-focus">
@@ -457,15 +390,15 @@
       <div id="next-sessions"></div>
     </div>
 
-    <div class="card">
+    <div class="card" id="gp-card">
       <h2>Goal-Pace Record</h2>
-      <p class="card-sub">Every session that asked for goal pace, and what came back. The reasons live in each session's run notes — this is execution, not explanation.</p>
+      <p class="card-sub">Every session in this block that asked for goal pace, and what came back. The reasons live in each session's run notes — this is execution, not explanation.</p>
       <div id="gp-record"></div>
       <p class="gp-summary" id="gp-summary"></p>
     </div>
 
     <div class="card">
-      <h2>Full 8-Week Schedule</h2>
+      <h2 id="schedule-title">Schedule</h2>
       <p class="card-sub">Tap a week to expand · the upcoming week opens by default</p>
       <div class="toggle-row">
         <label><input type="checkbox" id="hide-missed"/> Hide missed sessions</label>
@@ -473,144 +406,11 @@
       <div id="schedule"></div>
     </div>
 
-    <!-- Race prep. Collapsed by default: it is reference material Kai needs on two or
-         three specific days, not something to scroll past every time he checks what to
-         run. Kept in the repo rather than in Drive so it outlives the export folder. -->
-    <details class="history" id="prep">
-      <summary>
-        <span class="hist-title">Race Prep — Fuel &amp; Strength</span>
-        <span class="hist-hint">Meal plan, in-race fuelling, and the strength program</span>
-        <span class="hist-arrow">›</span>
-      </summary>
-      <div class="history-body">
-
-    <div class="card">
-      <h2>In-Race Fuelling</h2>
-      <p class="card-sub">Sep 19 · two gels · caffeine first</p>
-      <div class="fuel-hero">
-        <span class="fh-mile">Mile 5</span>
-        <span class="fh-body"><b>Maurten GEL 100 CAF 100</b> — 25 g carbs + 100 mg caffeine.
-          About 39 minutes in. No water needed.</span>
-      </div>
-      <div class="fuel-hero">
-        <span class="fh-mile">Mile 9</span>
-        <span class="fh-body"><b>Maurten GEL 100</b>, plain — 25 g carbs. About 70 minutes in.
-          No water needed.</span>
-      </div>
-      <p class="prep-lede"><b>Two gels, not one — the one-gel plan under-fuelled you.</b> Your
-        projected 1:41 is 1.68 hours, and the guideline for an effort this long is 30–60 g of
-        carbs per hour. One gel is 25 g, which works out to about 15 g/hr — under the band. Two is
-        50 g, or roughly 30 g/hr, which sits squarely at the bottom of it. The old "not necessary
-        at this distance" line came from the view that sub-90-minute races do not need much fuel,
-        and <b>your race is not sub-90.</b> Three would land too late to do much and only adds
-        volume; carry a third only as insurance if the day goes past 1:50.
-        <br><br>
-        <b>The caffeine goes in the first gel, and that is the whole trick.</b> Peak plasma
-        caffeine lands 30–60 minutes after you take it. From mile 5 that peak arrives somewhere
-        around 70–105 minutes — across the honest stretch and the closing push. Put it in the
-        second gel instead and it peaks after you have already finished. With your morning coffee
-        that is about 200 mg total, at the conservative end of the range the research uses, and
-        on purpose. <b>One CAF gel, not two</b> — 300 mg of
-        largely novel caffeine on a race morning buys jitters, not speed.
-        <br><br>
-        The hydrogel matrix is identical to the plain gel tested on Thursday; caffeine was the
-        only new variable.</p>
-      <p class="prep-lede">Mile 5 is early enough to matter and late enough to be worth taking,
-        and mile 9 puts fresh carbohydrate in before the last three miles. Mile 6–7 — where the
-        Sep 13 pain started — now sits between the two rather than being the single fuel point.
-        <br><br>
-        Fuelling matters for more than energy. The mechanism is <b>central fatigue</b>: low blood glucose
-        measurably reduces how fully the nervous system can drive a muscle, and carbohydrate taken
-        during exercise preserves that — shown in studies of roughly two-hour running efforts,
-        which is about your race. That argument is the reason to fuel <i>more</i> rather than less:
-        a muscle already working harder than it should is exactly where a loss of
-        motor precision would show up first. <b>Neither gel needs a water grab</b> — still the
-        reason this product won, and it matters more with two than with one.</p>
+    <div class="card" id="gaps-card">
+      <h2>Between Blocks</h2>
+      <p class="card-sub">Runs logged outside any block. They count in every chart and are never dropped.</p>
+      <div id="gaps-list"></div>
     </div>
-
-    <div class="card">
-      <h2>Pre-Race Meal Plan</h2>
-      <p class="card-sub">7am start, leaving home around 6:30 · mild forecast, so nothing aggressive</p>
-      <ul class="meal-list">
-        <li class="meal-day">
-          <div class="meal-when">Wed 9/16<span>3 days out</span></div>
-          <div class="meal-what">Nothing special yet. Start leaning toward <b>familiar meals</b> and
-            easing off very high-fibre or gas-prone foods — big raw salads, beans — if those are
-            regulars. Gut settling takes days, not hours. Otherwise eat normally, carb-leaning.</div>
-        </li>
-        <li class="meal-day">
-          <div class="meal-when">Thu 9/17<span>shakeout</span></div>
-          <div class="meal-what">Normal balanced meals, carbs a comfortable share of the plate.
-            <b>Race gel tested — Maurten, and it sat fine.</b> That was the one open GI question
-            and it is now closed. Start easing fibre back at dinner.</div>
-        </li>
-        <li class="meal-day">
-          <div class="meal-when">Fri 9/18<span>loading day</span></div>
-          <div class="meal-what">For a 90-minute-plus effort the evidence supports <b>one focused
-            carb-forward day spread across meals</b>, not a multi-day marathon protocol.
-            <ul>
-              <li>Breakfast — oatmeal, toast, or cereal with fruit.</li>
-              <li>Lunch — a rice or pasta bowl, or a sandwich, plus fruit.</li>
-              <li>Dinner — familiar and carb-forward, moderate protein, lighter on fat and fibre
-                than usual. Lower fat digests faster and cuts race-morning GI risk.</li>
-              <li>Hydration — a bit more than usual; pale yellow is the gauge, not a target.</li>
-              <li>Evening — skip or limit alcohol. Normal caffeine, early enough not to cost
-                sleep; you have a CAF gel coming at mile 5 tomorrow, so don't stack a late one
-                tonight on top of it.</li>
-            </ul></div>
-        </li>
-        <li class="meal-day is-race">
-          <div class="meal-when">Sat 9/19<span>race morning</span></div>
-          <div class="meal-what">The tight window is the real constraint: a full meal wants 2–3
-            hours to settle, which means eating by about 4:30–5am for a 7am gun. Two ways to play it.
-            <ul>
-              <li><b>Wake ~5am</b> — light, low-fibre breakfast: toast or a bagel with honey or jam,
-                a banana, maybe a small bowl of low-fibre cereal.</li>
-              <li><b>Sleep later, eat 6:15–6:30</b> — keep it small and liquid or semi-solid: a
-                banana, a few dates, a sports drink. A full solid meal will not digest in time.</li>
-              <li>Either way: <b>nothing new</b>, nothing high-fibre or high-fat.</li>
-              <li>Hydration — sip 16–20 oz across the two hours before the gun, tapering off in the
-                last 30–45 minutes so you are not looking for a bathroom on course.</li>
-              <li>Caffeine — if you normally drink coffee, the usual cup 45–60 min before the start
-                (~6:00–6:15) is well supported. Skipping it risks mild withdrawal working against
-                you. If you are not a regular user, race morning is not the day to start.</li>
-            </ul></div>
-        </li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h2>Strength &amp; Coordination Program</h2>
-      <p class="card-sub">From the PT's 2024 sheet · a starting point until she writes a running-specific program</p>
-      <div class="prep-flag">
-        <span class="pf-icon">▲</span>
-        <p><b>Twice a week, intermixed with running — never the day of or the day before a long
-          run.</b> That timing is her written rule, not a general caution, and it holds once the
-          program starts rather than only through race week. Build it into the Nov 29 plan from
-          the start.</p>
-      </div>
-      <div class="prep-flag">
-        <span class="pf-icon">▲</span>
-        <p><b>Starts after Saturday, not during race week.</b> Loaded single-leg squats, loaded
-          lunges and plyometric hopping are a real training stimulus, and novel loading this close
-          to a race buys exactly the soreness the taper exists to avoid. The one safe exception is
-          the unloaded runner's balance hold, if you want something proactive before then — it is
-          not necessary.</p>
-      </div>
-      <div class="prep-grid" id="prep-program"></div>
-      <p class="prep-lede" style="margin:18px 0 0;">Two columns, done side by side. This is the
-        long-term answer to what the Sep 13 run surfaced: single-leg-dominant work is what the
-        general injury-prevention literature recommends anyway. This sheet is one the PT wrote in
-        April 2024 for a different goal; at the Sep 15 visit she suggested starting with these
-        rows, and a running-specific program follows when Kai sees her later in October. It is
-        also the natural input to the Nov 29 bridge plan.
-        <br><br>
-        <b>This is a photographed excerpt — rows 3–10 of a larger sheet.</b> The running-specific
-        program replaces it when the PT writes it.</p>
-    </div>
-
-      </div>
-    </details>
 
     <details class="history" id="history">
       <summary>
@@ -621,20 +421,20 @@
       <div class="history-body">
 
     <div class="card">
-      <h2>Benchmark Result</h2>
-      <p class="card-sub">Aug 22 10K time trial, extrapolated to the half via Riegel's formula</p>
+      <h2 id="predict-title">Predicted Test</h2>
+      <p class="card-sub" id="predict-sub"></p>
       <div id="predict-box" class="predict-empty">No benchmark logged.</div>
     </div>
 
     <div class="card">
       <h2>Weekly Mileage</h2>
-      <p class="card-sub">Planned vs. logged, by training week</p>
+      <p class="card-sub">Planned vs. logged, by week of this block</p>
       <div class="chart-box"><canvas id="mileageChart"></canvas></div>
     </div>
 
     <div class="card">
       <h2>Pace Trend</h2>
-      <p class="card-sub">All logged runs · dashed line marks your goal race pace</p>
+      <p class="card-sub" id="pace-sub">All logged runs</p>
       <div class="chart-box"><canvas id="paceChart"></canvas></div>
     </div>
 
@@ -668,20 +468,9 @@
 
 <script>
 (function(){
-  const HALF_MI = 13.10938, TEN_K_MI = 6.21371;
-  const WEEK_STARTS = ["2026-07-27","2026-08-03","2026-08-10","2026-08-17","2026-08-24","2026-08-31","2026-09-07","2026-09-14"];
-  const WEEK_ENDS   = ["2026-08-02","2026-08-09","2026-08-16","2026-08-23","2026-08-30","2026-09-06","2026-09-13","2026-09-19"];
+  // Standard distances in miles, for test definitions and Riegel equivalents.
+  const DIST = {"5K":3.10686, "10K":6.21371, "Half":13.10938, "Marathon":26.21876};
 
-  // Easy was 8:50-9:20, which is not easy: it sits ~20 bpm above the true Zone 2
-  // anchor of 10:00-10:30 at 136-142 bpm, so following it turned every recovery
-  // day into a tempo day and left the aerobic base with nothing to grow on.
-  // Reset again on Aug 27 from 10:00-10:30 to 9:30-10:15. That anchor was set at
-  // 136-142 bpm; the Aug 27 run held 9:45/mi at 142 and 9:33/mi average at 144,
-  // so the old band now reads a legitimate Zone 2 effort as too fast on pace
-  // while the heart rate says otherwise. The band is what moved, not the effort:
-  // easy days are still judged on HR, and Zone 2 remains the actual target.
-  // Long stays 8:40-9:10 -- roughly 60-90 s/mi slower than goal pace, which is
-  // where a long run belongs.
   // Heart-rate zones exactly as Apple Fitness computes them for Kai, read off the
   // Heart Rate detail screen. Apple recalibrates these as fitness changes, so they are
   // a dated snapshot rather than a fixed constant -- when an export reports different
@@ -708,182 +497,13 @@
   // and how tired the legs already are.
   const ZONE2_MAX_HR = HR_ZONES.bands.find(b=>b.zone===2).max;
 
-  const PACE_ZONES = {
-    Easy:[9.5,10.25], Group:[9.0,9.5], Tempo:[7.667,7.917],
-    Long:[8.667,9.167], Interval:[6.917,7.333]
-  };
 
-  const PLAN = [
-    {week:1, phase:"Rebuild", range:"Jul 27 – Aug 2", sessions:[
-      {date:"2026-07-28", day:"Tue", type:"Easy", desc:"Easy run", dist:3},
-      {date:"2026-07-30", day:"Thu", type:"Group", desc:"Group run — fixed pace, 5K", dist:3.1},
-      {date:"2026-08-01", day:"Sat", type:"Tempo", desc:"1mi WU + 2mi tempo + 1mi CD", dist:4},
-      {date:"2026-08-02", day:"Sun", type:"Long", desc:"Long run, easy pace", dist:6},
-    ]},
-    {week:2, phase:"Rebuild", range:"Aug 3 – Aug 9", sessions:[
-      {date:"2026-08-04", day:"Tue", type:"Interval", desc:"1mi WU + 6×400m + 1mi CD", dist:4.75},
-      {date:"2026-08-06", day:"Thu", type:"Group", desc:"Group run — fixed pace, 5K", dist:3.1},
-      {date:"2026-08-08", day:"Sat", type:"Tempo", desc:"1mi WU + 2mi tempo + 1mi CD", dist:4},
-      {date:"2026-08-09", day:"Sun", type:"Long", desc:"Long run, easy pace", dist:7},
-    ]},
-    {week:3, phase:"Build", range:"Aug 10 – Aug 16", sessions:[
-      {date:"2026-08-11", day:"Tue", type:"Interval", desc:"1mi WU + 5×800m + 1mi CD", dist:6},
-      {date:"2026-08-13", day:"Thu", type:"Group", desc:"Group run — fixed pace, 5K", dist:3.1},
-      {date:"2026-08-15", day:"Sat", type:"Tempo", desc:"1mi WU + 3mi tempo + 1mi CD", dist:5},
-      {date:"2026-08-16", day:"Sun", type:"Long", desc:"Long run, last 2mi @ goal pace", dist:8},
-    ]},
-    {week:4, phase:"Benchmark", range:"Aug 17 – Aug 23", sessions:[
-      {date:"2026-08-17", day:"Mon", type:"Rest", desc:"Rest — recovery from 9 mi Sunday", dist:0},
-      {date:"2026-08-18", day:"Tue", type:"Easy", desc:"Easy run — conversational, no pace targets", dist:4},
-      {date:"2026-08-20", day:"Thu", type:"Interval", desc:"Sharpener: 1mi WU + 4×400m @ 10K effort + 1mi CD", dist:3.5},
-      {date:"2026-08-22", day:"Sat", type:"Benchmark", desc:"10K time trial — flat out-and-back, morning", dist:6.2},
-      {date:"2026-08-23", day:"Sun", type:"Long", desc:"Long run — flat, steady effort (decoupling test)", dist:7.5},
-    ]},
-    // Weeks 5-7 rebuilt Aug 23, after the benchmark. The original build asked for
-    // 26.1 mi in week 5 against the 14.09 actually run in week 4 -- an 85% jump,
-    // and the ramp rate is the injury Kai is most exposed to. It also carried
-    // three hard sessions a week, including a 4mi tempo the day before the long
-    // run. The benchmark settled that speed is not the limiter (7:07/mi for the
-    // closing 3.01 mi, alone, in direct sun); untested endurance is. So: the
-    // Saturday tempos are gone, 1-mile repeats become goal-pace work at the pace
-    // actually being trained for, and the freed volume goes to genuinely easy
-    // aerobic miles. Long runs are untouched -- they are the point.
-    // 53.6 mi across W5-W7 against the 73.8 originally planned.
-    {week:5, phase:"Peak build", range:"Aug 24 – Aug 30", sessions:[
-      // No band of its own: this session was written before the floor idea existed and
-      // is judged on the plain useGoal range it was actually set under. The `quality`
-      // block is only what lets the page score the two goal-pace miles instead of the
-      // four-mile average -- 8:27 / 6:54 / 6:37 / 8:57 averages to a textbook 7:45.
-      {date:"2026-08-25", day:"Tue", type:"Tempo", desc:"1mi WU + 2mi @ goal pace + 1mi CD", dist:4, useGoal:true,
-       quality:{dist:2, where:"middle"}},
-      {date:"2026-08-27", day:"Thu", type:"Easy", desc:"Easy run — solo, no group. True Zone 2, hold back.", dist:4},
-      // The closing 2 mi carry their own band. Two things meet on this run: it is
-      // the longest of the cycle, and the last time goal pace was asked for
-      // (Aug 25) it came back 55 s/mi hot with 8:49 spent above 170 bpm. Finishing
-      // surges are a standing pattern -- last year's Orca closed with a 6:58 mile.
-      // The whole-run target cannot say this: 8 easy miles and 2 at goal pace
-      // average to a number that describes neither. Offsets are seconds per mile
-      // against GOAL_PACE so the band follows the goal and no pace is written twice.
-      {date:"2026-08-30", day:"Sun", type:"Long", desc:"Long run — last 2mi @ goal pace, not faster", dist:10,
-       quality:{dist:2, where:"last", slowestSec:8, fastestSec:-7}},
-    ]},
-    {week:6, phase:"Peak", range:"Aug 31 – Sep 6", sessions:[
-      {date:"2026-09-01", day:"Tue", type:"Tempo", desc:"1mi WU + 3mi @ goal pace + 1mi CD", dist:5, useGoal:true,
-       quality:{dist:3, where:"middle"}},
-      {date:"2026-09-03", day:"Thu", type:"Easy", desc:"Easy run — solo, no group. True Zone 2, hold back.", dist:4},
-      // The hardest session in the plan: three goal-pace miles with five still to run
-      // after them, at the top of the volume curve. Distance is unchanged -- Aug 30
-      // returned eight miles at 9:02/mi with no cardiac drift at all, which is the
-      // evidence for going to 11.5, and long runs are what this block is for.
-      //
-      // What changes is the band. Sep 1 asked for goal pace under the plain range and
-      // came back 12 s/mi slow at 166-170 bpm, two days after the long run; Aug 25
-      // asked the same way and came back 55 s/mi fast. The band that has actually
-      // held is Aug 30's -- a slow edge to aim at and a floor to stop the surge --
-      // so it carries over here, where the miles land mid-run and there is a lot of
-      // running left to pay for them.
-      // startMi pins the effort to miles 6-8. "Middle 3" left the one decision that
-      // actually shapes the run -- when to start -- to be made while running it. Five
-      // easy miles first puts the block about 45 minutes in, which is close to where
-      // mile 6 of the race falls at goal pace, and leaves 3.5 miles to run afterwards.
-      // Those 3.5 are the point: finishing easy after a hard effort is the habit Kai
-      // does not have, and a block at the end would just be a fitness test he kicks.
-      //
-      // easyPace bands everything outside the effort. Without it the only pace on the
-      // card is the Long zone for the whole run, which is an average across three miles
-      // at 7:46 and eight at 9:15 and describes neither. Slightly easier than Aug 30's
-      // 9:02 because there is a goal-pace block coming and miles to run after it.
-      //
-      // startMi is instruction, not scoring: qualitySegment still finds the effort as
-      // the fastest contiguous block, so running it at miles 7-9 still reads correctly.
-      {date:"2026-09-06", day:"Sun", type:"Long", desc:"Peak long run, goal pace at miles 6-8", dist:11.5,
-       quality:{dist:3, where:"middle", startMi:6, slowestSec:8, fastestSec:-7},
-       easyPace:[9.0, 9.75]},
-    ]},
-    {week:7, phase:"Taper begins", range:"Sep 7 – Sep 13", sessions:[
-      // 4x800m at goal pace is the wrong session for the limiter. Speed was settled by
-      // the Aug 22 benchmark -- 7:21/mi for six miles, alone, in direct sun -- and repeats
-      // with recovery between them train precisely the thing that is not the problem.
-      // What is unsettled is holding a pace. Four goal-pace attempts this cycle have
-      // produced one clean execution: Aug 30's two miles. Aug 25 ran 55 s/mi too fast,
-      // Sep 1 came back 12 s/mi slow with a 6:39 stop through the middle of it, and Sep 6
-      // was taken by an unplanned climb before it started.
-      //
-      // So: two continuous miles, the distance he has actually executed, eleven days out.
-      // It is less total stress than four 800s at the same pace with rest between them,
-      // it rehearses the one thing race day asks for, and it is a session he can win --
-      // which counts, because pacing confidence is as much the limiter as the legs are.
-      // It carries the Aug 30 band and floor rather than the plain useGoal range that
-      // Aug 25 and Sep 1 were both set under and both missed.
-      {date:"2026-09-08", day:"Tue", type:"Tempo", desc:"1mi WU + 2mi @ goal pace + 1mi CD", dist:4,
-       quality:{dist:2, where:"middle", startMi:2, slowestSec:8, fastestSec:-7},
-       easyPace:[9.0, 9.75]},
-      // Thursdays name the session and say nothing about the company. The Westies meet
-      // Thursday or Sunday, Kai rarely knows which until the week is on him, and Sep 3
-      // he ran alone on a scheduling conflict -- so whether a run is solo or with the
-      // club is not a property the plan can know in advance, and not one it needs. The
-      // run gets recorded either way. What the old Group type did was worse than
-      // guessing: it scored the day against 3.1 mi at 9:00-9:30, which would have
-      // called Sep 3's well-run 4.02 at 9:58 and 141 bpm a miss.
-      {date:"2026-09-10", day:"Thu", type:"Easy", desc:"Easy run — true Zone 2, hold back", dist:3.1},
-      // Same shape as Aug 30, which is the one goal-pace session that has held its band,
-      // so it carries the same floor.
-      //
-      // Flat and familiar is now part of the session, not a nicety. This is the last
-      // rehearsal before the race, and the last two long runs have both had their
-      // quality taken by something outside the plan -- a watch that stopped recording
-      // on Sep 1, an unfamiliar path that climbed on Sep 6. Neither was a fitness
-      // problem and both cost the session anyway. Six days out there is no time to
-      // spend on a third.
-      {date:"2026-09-13", day:"Sun", type:"Long", desc:"Long run, last 2mi @ goal pace — flat, familiar route", dist:8,
-       quality:{dist:2, where:"last", slowestSec:8, fastestSec:-7},
-       easyPace:[9.0, 9.75]},
-    ]},
-    // Race week as modified after the Sep 15 PT visit. Nothing about the running changes --
-    // no distance, type or session moves -- because the plan already had Tue and Wed as rest,
-    // which happens to give the quad the recovery it needs before it works again.
-    // What changes is what he does on the runs that were already there: foam roll first, then
-    // two cues -- knee steered straight ahead, and the landing absorbed rather than stiff. The
-    // Sep 13 in-run fix was foot-strike, and both Kai and the PT read that as the wrong focus;
-    // it pulled attention off the thing that needed correcting, and foot strike still is not
-    // his to manage.
-    //
-    // This said "one cue, not two" until Sep 17, which was right for as long as the verbal
-    // summary of the Sep 15 visit was all there was. Her written follow-up that evening added
-    // the second cue. Two parts, both hers.
-    {week:8, phase:"Race week", range:"Sep 14 – Sep 19", sessions:[
-      // Not run. Kai was in pain and used the day to get in front of his PT instead --
-      // which is the monitoring rule working exactly as written, not a lapse. The visit
-      // is what produced the cue the rest of this week runs on.
-      {date:"2026-09-14", day:"Mon", type:"Easy", desc:"Easy run", dist:3,
-       skipped:"Rested and saw the PT — the right call"},
-      // Same reasoning as week 7, and it matters more here: the last run before a race
-      // should not be contingent on anyone else.
-      // Strides are neuromuscular priming, not a workout: four 20-second pickups two
-      // days out let him feel race pace on fresh legs at a cost of about 80 seconds of
-      // running. They are also the last time he touches that pace before the start.
-      // Unchanged in distance and structure, and now also the dress rehearsal: it is the only
-      // run between the PT visit and the race, so it is the one chance to find out whether the
-      // cue survives the strides, when effort and cadence rise. Also the day to taste the gel --
-      // for tolerance, not fatigue, which 3.1 easy miles will not produce.
-      // Run, and logged: 3.14 mi at 9:16/mi. No knee pain, which is the answer that mattered.
-      // The export describes the cue as knee tracking alone, so whether the soft-landing half
-      // got rehearsed is unconfirmed -- see the run note in data.js.
-      {date:"2026-09-17", day:"Thu", type:"Easy",
-       desc:"Shakeout — foam roll first, easy and short, then 4×20s strides at race pace. Rehearse both cues — knee straight, landing soft; test the race gel.", dist:3.1},
-      {date:"2026-09-18", day:"Fri", type:"Rest", desc:"Rest — main carb-loading day, spread across meals", dist:0},
-      {date:"2026-09-19", day:"Sat", type:"Race", desc:"🏁 ORCA HALF MARATHON — 7am start. Foam roll in warmup, both cues all day: knee straight, landing soft.", dist:13.1, useGoal:true},
-    ]},
-  ];
-
-  // Run + cross-training data live in data.js, loaded before this script.
+  // Plan data lives in blocks.js; run data in data.js. Both load before this script.
+  const BLOCKS = window.BLOCKS || [];
   const SEEDED_ACTUALS = window.SEEDED_ACTUALS || [];
   const CROSS_TRAINING = window.CROSS_TRAINING || [];
 
   const STORAGE_KEY = "dashboard-state";
-  // Goal pace is a property of the plan, not of this browser — it lives in
-  // data.js so it reads the same on every device. parsePace is hoisted.
-  const GOAL_PACE = parsePace(window.GOAL_PACE) || 7.9333;
   // How far the logged data actually reaches. Without it the page falls back to
   // treating every past unlogged session as missed, which is what it did before.
   const DATA_THROUGH = window.DATA_THROUGH || null;
@@ -960,29 +580,96 @@
     return new Date(todayISO()+"T00:00:00");
   }
 
+  function isoOf(d){
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+  }
+  function shiftISO(iso, days){ const d=new Date(iso+"T00:00:00"); d.setDate(d.getDate()+days); return isoOf(d); }
+
+  // ---------- blocks ----------
+  // The page shows one block at a time. Which one: the block containing today's Pacific
+  // date; failing that the next block to start, so the days before a block show what is
+  // coming rather than what is finished; failing that the most recent one. The #block=
+  // hash overrides all of that, which is what the picker in the header sets.
+  function blockForToday(){
+    const iso = todayISO();
+    const containing = BLOCKS.find(b=>iso>=b.start && iso<=b.end);
+    if(containing) return containing;
+    const upcoming = BLOCKS.filter(b=>b.start>iso).sort((a,b)=>a.start.localeCompare(b.start))[0];
+    if(upcoming) return upcoming;
+    return BLOCKS.slice().sort((a,b)=>b.end.localeCompare(a.end))[0] || null;
+  }
+  function selectedBlock(){
+    const id = (location.hash.match(/block=([\w-]+)/)||[])[1];
+    return BLOCKS.find(b=>b.id===id) || blockForToday();
+  }
+  let block = null;   // the block being rendered; set at the top of renderAll
+
+  // One goal pace per block, read fresh each time so a reset in blocks.js moves everything.
+  // Null is a real answer: no goal lines, no bands, no projected finish.
+  const goalPace  = ()=> block && block.goalPace ? parsePace(block.goalPace) : null;
+  const paceZones = ()=> (block && block.paceZones) || {};
+
+  // Weeks are derived from the block, never listed: 7-day spans from start, the last one
+  // clipped to end. A Monday start gives Monday-to-Sunday weeks, which is what the Orca plan
+  // was written in.
+  function blockWeeks(b){
+    const weeks=[]; const end=new Date(b.end+"T00:00:00");
+    let s=new Date(b.start+"T00:00:00"), i=0;
+    while(s<=end){
+      const e=new Date(s); e.setDate(e.getDate()+6);
+      const eClip = e>end ? end : e;
+      weeks.push({idx:i, week:i+1, start:isoOf(s), end:isoOf(eClip),
+                  phase:(b.weekPhases||[])[i]||"",
+                  range:`${fmtDate(isoOf(s))} – ${fmtDate(isoOf(eClip))}`});
+      s=new Date(e); s.setDate(s.getDate()+1); i++;
+    }
+    return weeks;
+  }
+  function weekSessions(wk){ return block.plan.filter(s=>s.date>=wk.start && s.date<=wk.end); }
+
+  // The block's result: a logged run on the test date covering most of the distance. Data,
+  // not the clock: the page flips to its result state because a result exists, not because
+  // a timer expired. On the morning of a test those are hours apart, and the wrong one of
+  // them leaves the page telling Kai to go and run something he has already finished.
+  function testResult(actuals){
+    const t = block && block.test;
+    if(!t) return null;
+    return (actuals||[]).find(a=>a.date===t.date && a.dist>=t.distanceMi*0.9) || null;
+  }
+  function blockPhase(actuals){
+    const iso = todayISO();
+    if(testResult(actuals)) return "result";
+    if(iso < block.start) return "upcoming";
+    if(block.test && iso===block.test.date) return "testday";
+    if(iso > block.end) return "ended";
+    return "active";
+  }
+  function daysUntil(iso){ return Math.round((new Date(iso+"T00:00:00")-todayPacific())/86400000); }
+
   function getTargetRange(session){
-    if(session.useGoal) return [GOAL_PACE-0.08, GOAL_PACE+0.08];
-    return PACE_ZONES[session.type] || null;
+    if(session.useGoal){ const g=goalPace(); return g ? [g-0.08, g+0.08] : null; }
+    return paceZones()[session.type] || null;
   }
 
   // The goal-pace miles inside a longer session need a band of their own, wherever
   // they sit in the run. A `quality` block names how many of them there are and
-  // where they fall; the band is either explicit -- offsets in seconds against
-  // GOAL_PACE -- or the session's own target range.
+  // where they fall; the band is either explicit -- offsets in seconds against the
+  // block's goal pace -- or the session's own target range.
   //
   // An explicit block carries a floor as well as a band, and the floor is the point:
   // the risk on these is running them too hard off tired legs, not too easy. Aug 25
   // asked for goal pace with no floor and came back 55 s/mi fast; Aug 30 asked with
-  // one and held it. Everything derives from GOAL_PACE and converts through uPace,
-  // so the line stays correct in km and moves if the goal is ever reset.
+  // one and held it. Everything derives from the goal pace and converts through uPace,
+  // so the line stays correct in km and moves if the goal is ever reset. With no goal
+  // pace there is no band, and the session renders without one.
   function qualityBand(session){
     const q = session.quality;
     if(!q) return null;
-    if(q.slowestSec!=null) return {
-      fast:  GOAL_PACE,
-      slow:  GOAL_PACE + q.slowestSec/60,
-      floor: q.fastestSec!=null ? GOAL_PACE + q.fastestSec/60 : null,
-    };
+    if(q.slowestSec!=null){
+      const g = goalPace();
+      if(!g) return null;
+      return {fast:g, slow:g + q.slowestSec/60, floor: q.fastestSec!=null ? g + q.fastestSec/60 : null};
+    }
     const r = getTargetRange(session);
     return r ? {fast:r[0], slow:r[1], floor:null} : null;
   }
@@ -1126,22 +813,6 @@
       : `ms on ${fmtDate(latest.date)}`;
   }
 
-  // The race date, in one place. The countdown, the phase table and the result card all
-  // need it, and three copies of a date string in a project this timezone-sensitive is
-  // three chances to get it wrong.
-  const RACE_DATE = "2026-09-19";
-
-  // The race counts as run when a logged run on the race date covers most of the distance.
-  // Data, not the clock: the page flips to its result state because a result exists, not
-  // because a timer expired. On race morning those are hours apart, and the wrong one of
-  // them leaves the page telling Kai to go and run something he has already finished.
-  function raceResult(actuals){
-    return (actuals||[]).find(a=>a.date===RACE_DATE && a.dist>=HALF_MI-1) || null;
-  }
-
-  // Splits are cumulative mile markers -- {mi:1} is the first mile, {mi:13.22} the closing
-  // 0.22 -- so a split's width is the gap back to the previous marker. That is what makes
-  // the final fragment weigh correctly instead of counting as a whole mile.
   function raceSegment(actual, from, to){
     if(!actual || !actual.splits) return null;
     let mins=0, dist=0, hrMins=0, hrSum=0, prev=0;
@@ -1167,177 +838,75 @@
   // watch's own `mins` and `dist`, which stay the record.
   function finishClock(a){ return a.officialTime ? a.officialTime.replace(/\.\d+$/, "") : fmtClock(a.mins); }
 
-  // The benchmark counter used to live here and read "Done" forever once Aug 22
-  // passed. Longest run replaces it: endurance is the limiter now, and it is the
-  // one number still genuinely unsettled. Deliberately not a bar toward 13.1 --
-  // never running the full distance in training is correct, not a shortfall.
+  function renderHero(){
+    document.title = "Run with Kai";
+    document.getElementById("hero-title").innerHTML = `Run with Kai <span class="h1-block">· ${esc(block.name)}</span>`;
+    document.getElementById("hero-eyebrow").textContent =
+      `${fmtDate(block.start)} – ${fmtDate(block.end)}, ${block.end.slice(0,4)}`
+      + (block.test ? ` · ${block.test.label} ${fmtDate(block.test.date)}` : "");
+    document.getElementById("hero-sub").textContent = block.focus || "";
+    const current = blockForToday();
+    const sel = document.getElementById("block-picker");
+    sel.innerHTML = BLOCKS.slice().sort((a,b)=>b.start.localeCompare(a.start)).map(b=>
+      `<option value="${b.id}"${b===block?" selected":""}>${b===current?"Now: ":""}${esc(b.name)} · ${fmtDate(b.start)} – ${fmtDate(b.end)}</option>`
+    ).join("");
+    // Frozen copies of past blocks stay one tap away whatever block is showing.
+    document.getElementById("hero-links").innerHTML = BLOCKS.filter(b=>b.archive).map(b=>
+      `<a class="archive-link" href="${b.archive}">${esc(b.name)} archive →</a>`).join(" ");
+  }
+
+  // Longest run replaces the old benchmark counter: endurance is the limiter, and it is
+  // the one number still genuinely unsettled. Scoped to the block being shown.
   function renderCountdowns(actuals){
     const today=todayPacific();
-    const race=new Date(RACE_DATE+"T00:00:00");
-    const dRace=Math.round((race-today)/86400000);
-    // Once the race is in the data this card stops counting and starts reporting. On race
-    // day itself dRace is still 0, so the clock alone would leave it reading "0 · until the
-    // start line" for the whole afternoon after he finished.
-    const done = raceResult(actuals);
-    document.getElementById("cd-race-label").textContent = done ? "Finish time" : "Days to race";
-    document.getElementById("cd-race").textContent =
-      done ? finishClock(done) : dRace>=0 ? dRace : "🏁";
-    document.getElementById("cd-race").style.fontSize = done ? "1.5rem" : "";
-    document.getElementById("cd-race-cap").textContent =
-      done ? `${uDist(done.dist)} ${uLabel()} @ ${fmtUPace(done.mins/done.dist)}`
-      : dRace>=0 ? "until the start line" : "Race complete!";
+    const t = block.test;
+    const done = testResult(actuals);
+    const label=document.getElementById("cd-race-label"), num=document.getElementById("cd-race"),
+          cap=document.getElementById("cd-race-cap");
+    num.style.fontSize = "";
+    if(!t){
+      label.textContent="Block ends"; num.textContent=fmtDate(block.end); num.style.fontSize="1.5rem";
+      cap.textContent="no test defined";
+    } else if(done){
+      label.textContent="Finish time"; num.textContent=finishClock(done); num.style.fontSize="1.5rem";
+      cap.textContent=`${uDist(done.dist)} ${uLabel()} @ ${fmtUPace(done.mins/done.dist)}`;
+    } else {
+      const d=daysUntil(t.date);
+      label.textContent="Days to test";
+      num.textContent = d>=0 ? d : "–";
+      cap.textContent = d>=0 ? `${t.label} · ${fmtDate(t.date)}` : `${t.label} was ${fmtDate(t.date)} · no result logged`;
+    }
 
-    const longest = actuals.length ? Math.max(...actuals.map(a=>a.dist)) : 0;
-    const nextLong = PLAN.flatMap(w=>w.sessions)
-      .find(x=>x.type==="Long" && isPending(x, actuals, today));
+    const inBlock = actuals.filter(a=>a.date>=block.start && a.date<=block.end && !ANCILLARY.has(a.segment));
+    const longest = inBlock.length ? Math.max(...inBlock.map(a=>a.dist)) : 0;
+    const nextLong = block.plan.find(x=>x.type==="Long" && isPending(x, actuals, today));
     document.getElementById("cd-long").textContent = longest ? uDist(longest) : "–";
     document.getElementById("cd-long-cap").textContent = nextLong
       ? `${uLabel()} · next: ${uDist(nextLong.dist,1)} ${uLabel()} ${new Date(nextLong.date+"T00:00:00").toLocaleDateString("en-US",{weekday:"long"})}`
-      : done ? `${uLabel()} · the race`
-      : dRace>=0 ? `${uLabel()} · ${uDist(HALF_MI,1)} on race day` : uLabel();
+      : longest ? `${uLabel()} · in this block`
+      : `${uLabel()} · no runs in this block yet`;
   }
-
-  // What the page leads with should change as the race approaches: a training
-  // tracker through the build, a warning against over-training in the taper, and
-  // a race briefing in the final week. Dates rather than week indices, so this
-  // stays right even if the plan's weeks are edited again.
-  const PHASES = [
-    {until:"2026-09-06", key:"build"},
-    {until:"2026-09-13", key:"taper"},
-    {until:"2026-09-18", key:"raceweek"},
-    {until:"2026-09-19", key:"raceday"},
-  ];
-  function currentPhase(){
-    const iso = todayISO();
-    for(const p of PHASES) if(iso <= p.until) return p.key;
-    return "post";
-  }
-
-  // Segment boundaries in miles; the labels are written per unit because
-  // "Mile 1" and "the first 1.6 km" are different idioms, not a conversion.
-  // Race pacing, as segments with their own bands rather than one number for 13.1 mi.
-  // Offsets are seconds against GOAL_PACE, so the whole plan moves if the goal is reset
-  // and no pace is ever written twice.
-  //
-  // Not even pace, deliberately, and for three reasons that are all in the data:
-  //
-  //   The opening miles climb. Holding goal PACE up a grade means spending more than
-  //   goal EFFORT to do it, and buying 20 seconds there costs minutes after mile 10.
-  //
-  //   Going out fast is his documented failure. Aug 25 asked for goal pace and came
-  //   back 55 s/mi quicker, and a start line with adrenaline and a training partner on
-  //   it is a stronger pull than a solo Tuesday evening.
-  //
-  //   Closing hard is his documented strength. Last year's Orca, untrained, negative
-  //   split and finished with a 6:58 mile off an 8:30 average; Aug 30 ran mile 9 in
-  //   7:33 off eight easy miles. A plan that leaves something for the last 5K is
-  //   playing to the thing he actually does.
-  //
-  // The bands average out to GOAL_PACE across the distance, so this is a redistribution
-  // of the same effort, not a slower race.
-  //
-  // `from`/`to` are the mile markers each segment covers, added Sep 19 so the result card
-  // can score the race against these same bands without re-stating them. `to:99` on the
-  // closing segment catches the fractional final split whatever the watch measured.
-  const RACE_PLAN = [
-    {mi:"Miles 1–2", km:"First 3.2 km", head:"let the hill have them",
-     from:1, to:2, slowSec:18, fastSec:8,
-     body:"The only climbing of the day. Run it by effort and let the pace be what it is — "
-        + "this is the one place where being slower than goal is the plan working, not failing. "
-        + "If mile 1 comes up under {fastest}, you have made the classic mistake: ease off now. "
-        + "You cannot bank time in a half, you can only borrow it at a terrible rate."},
-    {mi:"Miles 3–6", km:"3.2–9.7 km", head:"settle onto {goal}",
-     from:3, to:6, slowSec:3, fastSec:0,
-     body:"Flat from here. Find the pace and let it feel almost easy — three or four words at a "
-        + "time, not a sentence. Heart rate should sit in the low-to-mid 160s. If you are at "
-        + "{hot} bpm by mile 5, you are ahead of yourself: give back 5–10 sec/mi and take it later."},
-    {mi:"Miles 7–10", km:"9.7–16.1 km", head:"the honest stretch",
-     from:7, to:10, slowSec:0, fastSec:-4,
-     body:"This is where it starts costing, and where the race is actually decided. Hold the "
-        + "pace, don't chase it. Every mile here past the eighth is longer than any goal-pace "
-        + "effort you have run in training."},
-    // Softened Sep 15. "Now you empty it" was written before the Sep 13 knee pain and the
-    // PT visit that followed, and it sat badly beside a card that now says the default is to
-    // finish. The closing speed is real and worth naming -- but it is conditional on the knee
-    // being quiet, and the honest version says so rather than making the last two miles a test
-    // of nerve. Goal framing is unchanged: solid effort, feel good. The clock was never the point.
-    {mi:"Miles 11–13.1", km:"16.1–21.1 km", head:"spend what is left",
-     from:11, to:99, slowSec:-4, fastSec:-12,
-     body:"If the knee has stayed quiet, this is where you spend it — you have closed hard in "
-        + "every genuine effort on record, a 6:58 final mile here last year and 7:33 for mile 9 "
-        + "off eight miles on Aug 30. If it has not, let go of the number instead and run it in. "
-        + "Finishing this one well is the whole goal; the time is not."},
-  ];
-
-  // The PT's strength sheet, shared Sep 15 and written in April 2024 for a different goal; she
-  // suggested starting with these rows, and a running-specific program replaces them when she
-  // writes it. Kept as data rather than markup because it is knowingly a photographed excerpt
-  // of rows 3-10. `sub` carries the progression where she wrote one.
-  const PT_PROGRAM = [
-    {col:"Leg Strength", items:[
-      {name:"Single bridge", sub:"foot on foam roller", dose:"2×20"},
-      {name:"Pistol squat", sub:"15 lb kettlebell — keep the knee in line with the foot", dose:"3×10"},
-      {name:"Lateral lunges", sub:"15 lb kettlebell", dose:"3×10"},
-      {name:"Barbell or goblet squat", sub:"reps not captured in the excerpt", dose:"—"},
-    ]},
-    {col:"Coordination / Agility", items:[
-      {name:"Runner's balance", sub:"progress to a one-side 15 lb kettlebell", dose:"2×10"},
-      {name:"Skaters", sub:"progress with further hops side to side", dose:"2×20"},
-      {name:"Forward hop, single leg ×3", sub:"progress with further hops forward", dose:"10 rounds"},
-      {name:"Single-leg pogo hop", sub:"", dose:"1×20s"},
-      {name:"Pogo hop, front to back", sub:"", dose:"1×20s"},
-      {name:"Pogo hop, side to side", sub:"", dose:"1×20s"},
-      {name:"Clock hop, double leg", sub:"progress to single-leg clock hop", dose:"10 rounds"},
-    ]},
-  ];
-
-  function renderPtProgram(){
-    const host = document.getElementById("prep-program");
-    if(!host) return;
-    host.innerHTML = PT_PROGRAM.map(c=>
-      `<div class="prep-col"><h3>${c.col}</h3>` + c.items.map(x=>
-        `<div class="prep-ex"><span class="ex-name">${x.name}`
-        + (x.sub ? `<small>${x.sub}</small>` : "")
-        + `</span><span class="ex-dose">${x.dose}</span></div>`).join("")
-      + `</div>`).join("");
-  }
-
-  const RACE_OPEN_SEC = 8;
-  const RACE_OPEN_PACE = GOAL_PACE + RACE_OPEN_SEC/60;
 
   // The heart rate that means "ahead of yourself" is the Zone 5 floor, taken from Apple's
   // bands rather than typed, so it follows a recalibration like everything else.
   const HOT_HR = HR_ZONES.bands.find(b=>b.zone===4).max + 1;
 
   function renderRacePlan(){
-    const sub = t => t.replace("{open}", fmtUPace(RACE_OPEN_PACE))
-                      .replace("{goal}", fmtUPace(GOAL_PACE))
-                      .replace("{hot}",  String(HOT_HR));
-    document.getElementById("race-plan").innerHTML = RACE_PLAN.map(x=>{
-      const band = `${fmtPace(uPace(GOAL_PACE + x.fastSec/60))}–${fmtUPace(GOAL_PACE + x.slowSec/60)}`;
+    const g=goalPace(), p=block.raceDayPlan, t=block.test;
+    document.getElementById("race-title").textContent = `${t.label} — the plan`;
+    document.getElementById("race-sub").textContent = `${fmtDate(t.date)} · ${uDist(t.distanceMi,1)} ${uLabel()}`;
+    document.getElementById("race-goal").textContent = fmtUPace(g);
+    document.getElementById("race-finish").textContent = fmtClock(g*t.distanceMi);
+    const open = g + (p.openSec||0)/60;
+    const sub = s => s.replace("{open}", fmtUPace(open)).replace("{goal}", fmtUPace(g)).replace("{hot}", String(HOT_HR));
+    document.getElementById("race-plan").innerHTML = p.segments.map(x=>{
+      const band = `${fmtPace(uPace(g + x.fastSec/60))}–${fmtUPace(g + x.slowSec/60)}`;
       // {fastest} is the segment's own fast edge -- on the opening miles it is the number
-      // that says "you went out too hard", which is the single most likely way this race
-      // gets away from him.
-      const body = sub(x.body).replace("{fastest}", fmtUPace(GOAL_PACE + x.fastSec/60));
+      // that says "you went out too hard".
+      const body = sub(x.body).replace("{fastest}", fmtUPace(g + x.fastSec/60));
       return `<li><b>${isMetric()?x.km:x.mi} — ${sub(x.head)}.</b>`
            + ` <span class="race-band">${band}</span> ${body}</li>`;
     }).join("");
-
-    // The bail-out, and it is the most useful line on the card. An aggressive goal is
-    // only worth chasing if backing off it is a decision rather than a collapse: settling
-    // to goal + 8 s/mi for the closing miles still finishes inside 1:43, where fading to
-    // 8:30s from mile 10 does not.
-    const settle = 8*(GOAL_PACE + 3/60) + (HALF_MI-8)*(GOAL_PACE + 8/60);
-    document.getElementById("race-check").innerHTML =
-      `<b>Checkpoint at mile 8.</b> You have never held goal pace past two miles, so this is `
-      + `where the plan gets tested rather than rehearsed. Still on ${fmtUPace(GOAL_PACE)} and `
-      + `still able to get three or four words out — it is on, race the last 5K. Counting down, `
-      + `or over ${HOT_HR} bpm — settle to ${fmtUPace(GOAL_PACE + 8/60)} and hold it. That still `
-      + `finishes around ${fmtClock(settle)}, and it is a far better day than fading to `
-      + `${fmtUPace(GOAL_PACE + 48/60)} from mile 10.`;
-    // 28 sec/mi is a pace differential, so it scales like pace, not distance.
-    document.getElementById("race-gap").textContent =
-      `${Math.round(isMetric() ? 28/KM_PER_MI : 28)} sec/${uLabel()}`;
   }
 
   function renderUnits(){
@@ -1352,74 +921,60 @@
       : "Run data as recorded in data.js";
   }
 
+  // What the page leads with depends on where the block is: not started, under way, the
+  // test day itself, or finished. A logged result outranks the calendar.
   function renderPhase(actuals){
-    // A logged result outranks the calendar. currentPhase() still reads "raceday" until
-    // midnight Pacific, and the copy under that key tells him to go and run it.
-    const done = raceResult(actuals);
-    const phase = done ? "result" : currentPhase();
+    const phase = blockPhase(actuals);
     const banner = document.getElementById("phase-banner");
-    const raceCard = document.getElementById("race-card");
-    const copy = {
-      taper: ["Taper","Volume drops on purpose from here. The fitness is already banked — nothing "+
-        "you add in the next two weeks makes you faster on race day, and plenty could make you "+
-        "slower. The job now is arriving fresh."],
-      raceweek: ["Race week","Legs up. Keep the runs short and easy, sleep more than feels "+
-        "necessary, and don't test your fitness — it's already measured."],
-      raceday: ["Race day","Everything is done. Go run it."],
-      result: ["Race done","Eight weeks, and you ran it — through the worst it had to offer. "+
-        "Recovery first. The knee goes to the PT before anything else gets planned, and then "+
-        "this rolls into the Nov 29 build."],
-      post: ["After the race","Recovery first. When you're ready, this rolls into the marathon build."],
-    }[phase];
-    if(copy){
-      banner.innerHTML = `<b>${copy[0]}</b>${copy[1]}`;
-      banner.hidden = false;
+    const t = block.test;
+    let copy = null;
+    if(phase==="upcoming"){
+      const d = daysUntil(block.start);
+      copy = [`${block.name} starts ${d===0?"today":d===1?"tomorrow":`in ${d} days`}`,
+              `${fmtDate(block.start)} – ${fmtDate(block.end)}. ${block.focus||""}`];
+    } else if(phase==="testday"){
+      copy = ["Test day", `${t.label}. Everything is done — go run it.`];
+    } else if(phase==="result"){
+      copy = [`${block.name} done`,
+              `${t.label}, ${fmtDate(t.date)}: ${finishClock(testResult(actuals))}.`
+              + (block.archive ? " The page as it stood that day is archived." : "")];
+    } else if(phase==="ended"){
+      copy = [`${block.name} ended`, `${fmtDate(block.end)}` + (t ? `, with no result logged for the ${t.label}.` : ".")];
     } else {
-      banner.hidden = true;
+      const wks = blockWeeks(block), iso = todayISO();
+      const wk = wks.find(w=>iso>=w.start && iso<=w.end);
+      if(wk) copy = [`Week ${wk.week} of ${wks.length}`, (wk.phase ? `${wk.phase}. ` : "") + (block.focus||"")];
     }
-    // The race card comes up at the taper, not at race week. Planning the race is what
-    // the taper is for, and the pacing questions get asked while there is still time to
-    // rehearse the answer -- on Sep 13 there is one goal-pace session left to try it on.
-    const showRace = phase==="taper" || phase==="raceweek" || phase==="raceday";
-    raceCard.hidden = !showRace;
-    if(showRace){
-      renderRacePlan();
-      document.getElementById("race-goal").textContent = fmtUPace(GOAL_PACE);
-      document.getElementById("race-finish").textContent = fmtClock(GOAL_PACE*HALF_MI);
-    }
+    if(copy){ banner.innerHTML = `<b>${esc(copy[0])}</b>${esc(copy[1])}`; banner.hidden=false; }
+    else banner.hidden = true;
+
+    const showRace = phase==="testday" && !!block.raceDayPlan && !!goalPace();
+    document.getElementById("race-card").hidden = !showRace;
+    if(showRace) renderRacePlan();
     const resultCard = document.getElementById("result-card");
-    resultCard.hidden = !done;
-    if(done) renderRaceResult(done);
+    resultCard.hidden = phase!=="result";
+    if(phase==="result") renderTestResult(testResult(actuals));
   }
 
-  // What the race actually came back as, scored against the plan that was on this page the
-  // morning of. The segment bands come from RACE_PLAN rather than being restated, so a reset
-  // GOAL_PACE moves the plan and its scoring together and neither can drift from the other.
-  function renderRaceResult(a){
+  // What the test actually came back as. Scored against the block's race-day plan where
+  // it had one: the bands come from raceDayPlan and the goal pace, so a reset moves the
+  // plan and its scoring together and neither can drift from the other.
+  function renderTestResult(a){
+    const t=block.test, g=goalPace();
+    document.getElementById("result-title").textContent = `${t.label} — result`;
+    document.getElementById("result-sub").textContent =
+      fmtDate(t.date) + (a.courseMi ? ` · ${uDist(a.courseMi,1)} ${uLabel()} course` : "");
     document.getElementById("result-time").textContent = finishClock(a);
     document.getElementById("result-meta").innerHTML =
       (a.officialTime ? `official chip time · watch <b>${fmtClock(a.mins)}</b> for ` : "")
       + `<b>${uDist(a.dist)} ${uLabel()}</b> @ <b>${fmtUPace(a.mins/a.dist)}</b>`
       + (a.hrAvg ? ` · ♥ <b>${a.hrAvg}</b> avg${a.hrMax ? ` · ${a.hrMax} max` : ""}` : "")
-      + ` · goal was ${fmtClock(GOAL_PACE*HALF_MI)}`;
+      + (g ? ` · goal was ${fmtClock(g*t.distanceMi)}` : "");
 
-    // The knee goes above the splits, and it is the only thing on this card written as an
-    // instruction. The monitoring rule says a finding like this gets stated plainly and
-    // early rather than buried under the pace analysis, and a pain-free finish is not an
-    // all-clear -- it is one data point in an incident that also included being unable to
-    // walk properly.
-    document.getElementById("result-knee").innerHTML =
-      `<b>The knee goes to your PT before anything else gets planned.</b> Pain from about `
-      + `mile 6, worsening until it forced you to stop and walk — barely able to walk at `
-      + `points, by your own account. That is an altered gait, which is the line the `
-      + `monitoring rule draws, and it is the second mile-6 onset in six days: on Sep 13 you `
-      + `could adjust and keep running, today you could not. The pain-free finish and the `
-      + `quiet hours since are real and they are good news. They are not an all-clear, and `
-      + `this does not get closed out on them.`;
-
-    const segs = RACE_PLAN.filter(x=>x.from).map(x=>{
+    const p = block.raceDayPlan;
+    const segs = (p && g) ? p.segments.filter(x=>x.from).map(x=>{
       const seg = raceSegment(a, x.from, x.to);
-      const fast = GOAL_PACE + x.fastSec/60, slow = GOAL_PACE + x.slowSec/60;
+      const fast = g + x.fastSec/60, slow = g + x.slowSec/60;
       const u = seg ? uPace(seg.pace) : null;
       const cls = !seg ? "" : u < uPace(fast) ? "fast" : u > uPace(slow) ? "slow" : "in";
       const verdict = !seg ? "" : cls==="in" ? "held the band"
@@ -1431,46 +986,19 @@
         <div class="seg-got ${cls}">${seg ? fmtPace(uPace(seg.pace)) : "–"}</div>
         <div class="seg-hr">${seg && seg.hrAvg ? `${seg.hrPartial?"~":""}♥ ${seg.hrAvg}` : ""}</div>
       </div>`;
-    }).join("");
+    }).join("") : "";
     document.getElementById("result-segs").innerHTML = segs;
-
-    document.getElementById("result-read").innerHTML =
-      `<b>What the splits say.</b> You went out slower than even the conservative opening `
-      + `band, settled onto goal pace exactly where the plan asked you to, lost the honest `
-      + `stretch to the knee — and then closed faster than the most aggressive band on the `
-      + `card. Miles 11–13 ran 7:27 / 6:59 / 6:40 at 148 and 154 bpm, against 7:42–7:46 at `
-      + `166–168 bpm for miles 4–7. Faster, at a lower heart rate, on the leg that could not `
-      + `walk half an hour earlier. Whatever happened at mile 6 resolved rather than `
-      + `accumulated, and overstriding is not the explanation: your stride was longer in the `
-      + `pain-free closing miles than in the ones where the pain built. Cadence held 167–171 `
-      + `the whole way and never sagged late, which is the job the music is there to do. `
-      + `The ~ on the closing segment's heart rate means miles 13 and the final fragment came `
-      + `back without one; elevation did not come through at all, and it is the one field `
-      + `that could explain those closing miles without physiology.`;
-
-    document.getElementById("result-next").innerHTML =
-      `<b>The engine was never the limiter, and this race proves it.</b> `
-      + `${fmtUPace(a.mins/a.dist)} at ${a.hrAvg} average, against last year's untrained `
-      + `8:30/mi at 166–176. Thirty seconds a mile faster at a materially lower heart rate, `
-      + `with an eight-minute walk inside the time. The limiter showed up exactly where this `
-      + `project has always had it — the quad — and that is the question the Nov 29 build has `
-      + `to answer. The strength work starts now rather than after race week, from the PT's `
-      + `2024 sheet for now, with a running-specific program to follow from her.`;
+    document.getElementById("result-link").innerHTML = block.archive
+      ? `Run notes, the splits and the full read of the day are on <a class="archive-link" href="${block.archive}">the archived page →</a>`
+      : "";
   }
 
   function renderGoal(){
-    document.getElementById("goal-display").textContent = fmtUPace(GOAL_PACE);
-    document.getElementById("goal-finish").textContent = fmtClock(GOAL_PACE*HALF_MI);
-  }
-
-  function findCurrentWeek(){
-    const today=todayPacific();
-    for(let i=0;i<WEEK_STARTS.length;i++){
-      const s=new Date(WEEK_STARTS[i]+"T00:00:00"), e=new Date(WEEK_ENDS[i]+"T23:59:59");
-      if(today>=s && today<=e) return i;
-    }
-    if(today < new Date(WEEK_STARTS[0]+"T00:00:00")) return -1;
-    return 99;
+    const g=goalPace(), t=block.test, el=document.getElementById("goal-main");
+    if(!g){ el.innerHTML = `<span class="goal-note">No goal pace set for this block</span>`; return; }
+    el.innerHTML = `<span>Goal pace</span> <b>${fmtUPace(g)}</b>`
+      + (t ? ` <span class="goal-arrow">→</span> <span>projected ${esc(t.label)}</span> <b id="goal-finish">${fmtClock(g*t.distanceMi)}</b>` : "")
+      + ` <span class="goal-note">one goal pace per block, set in <code>blocks.js</code></span>`;
   }
 
   // A session still ahead of you: dated today or later, with nothing logged
@@ -1484,15 +1012,14 @@
   // forward to the next one, rather than showing a week that's already done.
   function findUpcomingWeek(actuals){
     const today=todayPacific();
-    for(let i=0;i<PLAN.length;i++){
-      if(PLAN[i].sessions.some(s=>isPending(s, actuals, today))) return i;
+    for(const wk of blockWeeks(block)){
+      if(weekSessions(wk).some(s=>isPending(s, actuals, today))) return wk.idx;
     }
     return -1;
   }
 
-  function weekLoggedMiles(i, actuals){
-    return actuals.filter(a=>a.date>=WEEK_STARTS[i] && a.date<=WEEK_ENDS[i])
-                  .reduce((s,a)=>s+a.dist,0);
+  function weekLoggedMiles(wk, actuals){
+    return actuals.filter(a=>a.date>=wk.start && a.date<=wk.end).reduce((s,a)=>s+a.dist,0);
   }
 
   function sessionStatus(session, actuals, today){
@@ -1669,7 +1196,7 @@
   // card is not the place that decides which it was.
   function renderGoalPaceRecord(actuals){
     const el = document.getElementById("gp-record");
-    const rows = PLAN.flatMap(w=>w.sessions)
+    const rows = block.plan
       .filter(x=>x.quality && qualityBand(x))
       .map(x=>{
         const actual = actuals.find(a=>a.date===x.date);
@@ -1707,29 +1234,38 @@
     const sum = document.getElementById("gp-summary");
     sum.textContent = run
       ? `${held} of ${run} attempt${run===1?"":"s"} landed inside the band.`
-        + ` Goal pace is ${fmtUPace(GOAL_PACE)}, set in data.js.`
+        + ` Goal pace is ${fmtUPace(goalPace())}, set in blocks.js.`
       : "";
   }
 
   function renderUpNext(actuals){
     const today=todayPacific();
-    const idx=findUpcomingWeek(actuals);
     const titleEl=document.getElementById("next-title"), subEl=document.getElementById("next-sub"), body=document.getElementById("next-sessions");
+    const wks = blockWeeks(block);
 
+    if(!block.plan.length){
+      titleEl.textContent = "Up Next";
+      const d = daysUntil(block.start);
+      subEl.textContent = d>0 ? `${block.name} starts ${fmtDate(block.start)}` : `${block.name} · ${fmtDate(block.start)} – ${fmtDate(block.end)}`;
+      body.innerHTML = `<p class="predict-empty">No sessions published for this block yet.</p>`;
+      return;
+    }
+
+    const idx=findUpcomingWeek(actuals);
     if(idx===-1){
       titleEl.textContent="Plan complete";
-      subEl.textContent="Every session in the 8-week plan is behind you. Open Training History for the full record.";
+      subEl.textContent=`Every session in the ${wks.length}-week plan is behind you. Open Training History for the full record.`;
       body.innerHTML="";
       return;
     }
 
-    const wk=PLAN[idx];
-    const pending = wk.sessions.filter(s=>isPending(s, actuals, today));
-    titleEl.textContent=`Week ${wk.week} of 8 · ${wk.phase}`;
+    const wk=wks[idx];
+    const pending = weekSessions(wk).filter(s=>isPending(s, actuals, today));
+    titleEl.textContent=`Week ${wk.week} of ${wks.length}` + (wk.phase ? ` · ${wk.phase}` : "");
 
     // Lead with when it starts if the week hasn't begun, otherwise with how
     // much of it is left.
-    const wkStart = new Date(WEEK_STARTS[idx]+"T00:00:00");
+    const wkStart = new Date(wk.start+"T00:00:00");
     let lead;
     if(wkStart > today){
       const d = Math.round((wkStart-today)/86400000);
@@ -1749,21 +1285,29 @@
   function renderSchedule(actuals){
     const today=todayPacific();
     const el=document.getElementById("schedule");
-    el.innerHTML = PLAN.map((wk,i)=>{
-      const planned = wk.sessions.reduce((s,x)=>s+x.dist,0);
-      const {shown, hidden} = partitionSessions(wk.sessions, actuals, today);
-      const started = today >= new Date(WEEK_STARTS[i]+"T00:00:00");
-      const isPast = today > new Date(WEEK_ENDS[i]+"T23:59:59");
-      const logged = weekLoggedMiles(i, actuals);
+    const wks = blockWeeks(block);
+    document.getElementById("schedule-title").textContent = `Full ${wks.length}-Week Schedule`;
+    if(!block.plan.length){
+      el.innerHTML = `<p class="predict-empty">${wks.length} weeks, ${fmtDate(block.start)} – ${fmtDate(block.end)}. Sessions appear here once they are published.</p>`;
+      return;
+    }
+    el.innerHTML = wks.map(wk=>{
+      const sessions = weekSessions(wk);
+      const planned = sessions.reduce((s,x)=>s+x.dist,0);
+      const {shown, hidden} = partitionSessions(sessions, actuals, today);
+      const started = today >= new Date(wk.start+"T00:00:00");
+      const isPast = today > new Date(wk.end+"T23:59:59");
+      const logged = weekLoggedMiles(wk, actuals);
       const miles = started
         ? `${uDist(planned,1)} ${uLabel()} planned · <span class="wk-logged">${uDist(logged,1)} logged</span>`
         : `${uDist(planned,1)} ${uLabel()} planned`;
+      const head = [wk.phase, wk.range, miles].filter(Boolean).join(" · ");
       return `<div class="week-acc${isPast?" is-past":""}">
-        <button class="week-head" aria-expanded="false" data-idx="${i}">
-          <span><span class="wk-title">Week ${wk.week}</span> — <span class="wk-phase">${wk.phase} · ${wk.range} · ${miles}</span></span>
+        <button class="week-head" aria-expanded="false" data-idx="${wk.idx}">
+          <span><span class="wk-title">Week ${wk.week}</span> — <span class="wk-phase">${head}</span></span>
           <span class="wk-arrow">›</span>
         </button>
-        <div class="week-body" id="wk-body-${i}">
+        <div class="week-body" id="wk-body-${wk.idx}">
           ${shown.map(s=>sessionRowHTML(s, actuals, today)).join("")}
           ${missedNoteHTML(hidden)}
         </div>
@@ -1778,55 +1322,109 @@
     });
     // auto-open the week you're heading into, not the one just finished
     const idx=findUpcomingWeek(actuals);
-    if(idx>=0 && idx<8){
+    if(idx>=0){
       const body=document.getElementById("wk-body-"+idx);
       const btn=el.querySelector(`.week-head[data-idx="${idx}"]`);
       if(body && btn){ body.classList.add("open"); btn.setAttribute("aria-expanded","true"); }
     }
   }
 
-  function renderPrediction(actuals){
-    const bench = actuals.find(a=>a.date==="2026-08-22" && a.segment==="benchmark")
-               || actuals.find(a=>a.date==="2026-08-22");
-    const box=document.getElementById("predict-box");
-    if(!bench){
-      const needed = (GOAL_PACE*HALF_MI) / Math.pow(HALF_MI/TEN_K_MI, 1.06);
-      const nm=Math.floor(needed), ns=Math.round((needed%1)*60);
-      box.className="predict-empty";
-      box.innerHTML = `Log your Aug 22 benchmark to see a data-based prediction here.<br/><br/>
-        <span style="color:var(--gold); font-family:var(--font-mono);">${nm}:${String(ns).padStart(2,"0")}</span>
-        — the 10K time that projects to your goal of ${fmtUPace(GOAL_PACE)} (${fmtClock(GOAL_PACE*HALF_MI)} finish).`;
-      return;
+  // Runs that fall in no block: before the first, between two, after the last. Grouped by
+  // the gap they sit in and listed in full, because a run is a run whether or not a plan
+  // was in force that week. The gap just before the block being shown is listed even when
+  // it is empty, so an absence reads as "nothing logged" rather than as a bug.
+  function renderGaps(actuals){
+    const el=document.getElementById("gaps-list");
+    const sorted = BLOCKS.slice().sort((a,b)=>a.start.localeCompare(b.start));
+    if(!sorted.length){ el.innerHTML=""; return; }
+    const gaps=[{label:`Before ${sorted[0].name}`, from:"0000-01-01", to:shiftISO(sorted[0].start,-1), before:sorted[0]}];
+    for(let i=0;i<sorted.length-1;i++)
+      gaps.push({label:`Between ${sorted[i].name} and ${sorted[i+1].name}`,
+                 from:shiftISO(sorted[i].end,1), to:shiftISO(sorted[i+1].start,-1), before:sorted[i+1]});
+    const last=sorted[sorted.length-1];
+    gaps.push({label:`After ${last.name}`, from:shiftISO(last.end,1), to:"9999-12-31", before:null});
+    const runsIn = g => actuals.filter(a=>a.date>=g.from && a.date<=g.to && !ANCILLARY.has(a.segment));
+    const shown = gaps.filter(g=>g.from<=g.to && (runsIn(g).length || g.before===block));
+    if(!shown.length){ el.innerHTML=`<p class="predict-empty">Every logged run falls inside a block.</p>`; return; }
+    el.innerHTML = shown.map(g=>{
+      const runs = runsIn(g).sort((a,b)=>b.date.localeCompare(a.date));
+      const rows = runs.length ? runs.map(a=>{
+        const dow=new Date(a.date+"T00:00:00").toLocaleDateString("en-US",{weekday:"short"});
+        const hr = a.hrAvg ? `<div class="s-actual" style="color:var(--coral);">♥ ${a.hrAvg} avg${a.hrMax?` · ${a.hrMax} max`:""}</div>` : "";
+        return `<div class="session">
+          <div class="s-date"><span class="dow">${dow}</span>${fmtDate(a.date)}</div>
+          <div class="s-mid"><span class="pill easy">Run</span><div class="s-desc">${uDist(a.dist)} ${uLabel()} @ ${fmtUPace(a.mins/a.dist)}</div>${a.elev?`<div class="s-target">${esc(a.elev)}</div>`:""}</div>
+          <div class="s-right"><span class="badge done">✓ Synced</span>${hr}</div>
+          ${runLogHTML(a)}
+        </div>`;
+      }).join("") : `<p class="gap-empty">Nothing logged ${fmtDate(g.from)} – ${fmtDate(g.to)}.</p>`;
+      return `<div class="gap-head">${esc(g.label)}</div>${rows}`;
+    }).join("");
+  }
+
+  // Every time trial and race, projected to this block's test distance. Riegel's formula
+  // with the usual 1.06 exponent, scaled from the distance actually covered -- treating a
+  // GPS-measured 6.01 mi as 6.21 flatters a projection by minutes. Where a race carries an
+  // official time over a measured course, that pair is the honest input; the watch's own
+  // distance and time otherwise.
+  function benchmarkLabel(a){
+    for(const b of BLOCKS){
+      if(b.test && b.test.date===a.date) return b.test.label;
+      const s=(b.plan||[]).find(x=>x.date===a.date && (x.type==="Benchmark"||x.type==="Race"));
+      if(s) return s.desc.split(" — ")[0];
     }
-    const t1 = bench.mins;
-    // Scale from the distance actually covered, not from a nominal 10K. Treating
-    // a GPS-measured 6.01 mi as 6.21 flatters the projection by ~3 minutes while
-    // the note below still quotes the real figure — the two disagreeing is worse
-    // than either being wrong alone.
-    const predictedMin = t1 * Math.pow(HALF_MI/bench.dist, 1.06);
-    const goalMin = GOAL_PACE*HALF_MI;
-    const diff = predictedMin - goalMin;
-    let note;
-    if(diff<=1) note="Right on track for your goal pace. 🎯";
-    else if(diff<=6) note="Close to your goal — a bit more speed work could close the gap.";
-    else note=`Meaningfully behind your goal of ${fmtClock(goalMin)} — worth resetting GOAL_PACE in data.js.`;
+    return a.segment==="race" ? "Race" : "Benchmark";
+  }
+  function clockToMin(str){
+    const p=String(str).split(":").map(Number);
+    return p.length===3 ? p[0]*60+p[1]+p[2]/60 : p[0]+p[1]/60;
+  }
+  function riegel(mins, fromMi, toMi){ return mins*Math.pow(toMi/fromMi, 1.06); }
+  // A 5K projection is minutes and seconds; an hour digit of 0 in front of it reads as a bug.
+  const fmtTime = (min)=> min >= 60 ? fmtClock(min) : fmtClock(min).replace(/^0:/, "");
+  function benchmarks(actuals){
+    return actuals.filter(a=>a.segment==="benchmark" || a.segment==="race" || a.segment==="test")
+      .map(a=>({a, label:benchmarkLabel(a),
+                dist: a.courseMi || a.dist,
+                mins: a.officialTime ? clockToMin(a.officialTime) : a.mins}))
+      .sort((x,y)=>y.a.date.localeCompare(x.a.date));
+  }
+  function renderPrediction(actuals){
+    const t=block.test, g=goalPace();
+    const box=document.getElementById("predict-box");
+    document.getElementById("predict-title").textContent = t ? `Predicted ${t.label}` : "Predicted Test";
+    document.getElementById("predict-sub").textContent = t
+      ? `Every time trial and race, projected to ${uDist(t.distanceMi,1)} ${uLabel()} via Riegel's formula`
+      : "This block has no test defined";
+    if(!t){ box.className="predict-empty"; box.innerHTML="Nothing to project to."; return; }
+    const rows=benchmarks(actuals);
+    if(!rows.length){ box.className="predict-empty"; box.innerHTML="No time trial or race logged yet."; return; }
     box.className="";
-    box.innerHTML = `<div class="predict-value">${fmtClock(predictedMin)}</div>
-      <div class="predict-note">From your ${uDist(bench.dist,1)} ${uLabel()} time trial in ${t1.toFixed(1)} min, via Riegel's formula. ${note}</div>`;
+    box.innerHTML = rows.map(r=>{
+      const pred = riegel(r.mins, r.dist, t.distanceMi);
+      return `<div class="gp-row">
+        <div class="gp-when"><b>${fmtDate(r.a.date)}</b><span>${esc(r.label)} · ${uDist(r.dist,2)} ${uLabel()} in ${fmtTime(r.mins)}</span></div>
+        <div class="gp-got"><span class="gp-pace in">${fmtTime(pred)}</span><span class="gp-off">${fmtUPace(pred/t.distanceMi)}</span></div>
+      </div>`;
+    }).join("");
+    // Against the goal, where there is one: the most recent benchmark is the one that counts.
+    if(g && !testResult(actuals)){
+      const latest = riegel(rows[0].mins, rows[0].dist, t.distanceMi);
+      const goalMin = g*t.distanceMi, diff = latest-goalMin;
+      const note = diff<=1 ? "Right on track for the goal pace."
+        : diff<=6 ? "Close to the goal — a bit more speed work could close the gap."
+        : `Meaningfully behind the goal of ${fmtTime(goalMin)} — worth resetting this block's goal pace in blocks.js.`;
+      box.innerHTML += `<div class="predict-note">Latest benchmark against the goal: ${note}</div>`;
+    }
   }
 
   let mileageChart, paceChart;
   function renderMileageChart(actuals){
-    const labels = PLAN.map(w=>"W"+w.week);
-    const planned = PLAN.map(w=>w.sessions.reduce((s,x)=>s+x.dist,0));
-    const logged = PLAN.map(w=>{
-      return actuals.filter(a=>a.date>=WEEK_STARTS[w.week-1] && a.date<=WEEK_ENDS[w.week-1])
-                    .reduce((s,a)=>s+a.dist,0);
-    });
-    const cross = PLAN.map(w=>{
-      return CROSS_TRAINING.filter(c=>c.date>=WEEK_STARTS[w.week-1] && c.date<=WEEK_ENDS[w.week-1])
-                           .reduce((s,c)=>s+c.dist,0);
-    });
+    const wks = blockWeeks(block);
+    const labels = wks.map(w=>"W"+w.week);
+    const planned = wks.map(w=>weekSessions(w).reduce((s,x)=>s+x.dist,0));
+    const logged = wks.map(w=>weekLoggedMiles(w, actuals));
+    const cross = wks.map(w=>CROSS_TRAINING.filter(c=>c.date>=w.start && c.date<=w.end).reduce((s,c)=>s+c.dist,0));
     const ctx=document.getElementById("mileageChart");
     if(mileageChart) mileageChart.destroy();
     mileageChart = new Chart(ctx, {
@@ -1851,18 +1449,21 @@
     const actuals = allRuns.filter(a=>!ANCILLARY.has(a.segment));
     const labels = actuals.map(a=>fmtDate(a.date));
     const paces = actuals.map(a=>+uPace(a.mins/a.dist).toFixed(2));
-    const goalLine = actuals.map(()=>uPace(GOAL_PACE));
+    const g = goalPace();
+    document.getElementById("pace-sub").textContent = g ? "All logged runs · dashed line marks this block's goal pace" : "All logged runs";
+    const datasets = [
+      // No area fill: the y-axis is reversed, so a fill toward the origin
+      // shades everything *faster* than you ran — reads as the opposite of
+      // what it means.
+      {label:`Pace (min/${uLabel()})`, data:paces, borderColor:"#35D6BE", tension:0.3, fill:false, pointRadius:4, pointBackgroundColor:"#35D6BE"},
+    ];
+    // The goal line exists only when the block has a goal pace.
+    if(g) datasets.push({label:"Goal pace", data:actuals.map(()=>uPace(g)), borderColor:"#EFC25A", borderDash:[6,5], pointRadius:0, borderWidth:1.5});
     const ctx=document.getElementById("paceChart");
     if(paceChart) paceChart.destroy();
     paceChart = new Chart(ctx, {
       type:"line",
-      data:{labels, datasets:[
-        // No area fill: the y-axis is reversed, so a fill toward the origin
-        // shades everything *faster* than you ran — reads as the opposite of
-        // what it means.
-        {label:`Pace (min/${uLabel()})`, data:paces, borderColor:"#35D6BE", tension:0.3, fill:false, pointRadius:4, pointBackgroundColor:"#35D6BE"},
-        {label:"Goal pace", data:goalLine, borderColor:"#EFC25A", borderDash:[6,5], pointRadius:0, borderWidth:1.5}
-      ]},
+      data:{labels, datasets},
       options:{
         responsive:true, maintainAspectRatio:false,
         scales:{
@@ -1911,7 +1512,10 @@
   }
 
   function renderAll(){
+    block = selectedBlock();
+    if(!block){ document.getElementById("hero-sub").textContent = "No training blocks defined in blocks.js."; return; }
     const actuals = allActuals();
+    renderHero();
     renderUnits();
     renderCountdowns(actuals);
     renderRestingHr();
@@ -1919,13 +1523,14 @@
     renderPhase(actuals);
     renderGoal();
     renderUpNext(actuals);
-    renderGoalPaceRecord(actuals);
+    document.getElementById("gp-card").hidden = !goalPace();
+    if(goalPace()) renderGoalPaceRecord(actuals);
     renderPrediction(actuals);
     renderMileageChart(actuals);
     renderPaceChart(actuals);
     renderSchedule(actuals);
+    renderGaps(actuals);
     renderCrossTraining();
-    renderPtProgram();
     renderManualList();
   }
 
@@ -1969,6 +1574,11 @@
     clearTimeout(notesTimer);
     notesTimer = setTimeout(saveState, 600);
   });
+
+  document.getElementById("block-picker").addEventListener("change", (e)=>{
+    location.hash = "block=" + e.target.value;
+  });
+  window.addEventListener("hashchange", renderAll);
 
   (async function init(){
     await loadState();

@@ -12,23 +12,27 @@ each phase.
 - [x] `ORCA-Dashboard` private and archived
 - [x] Official chip time (1:45:51.49) recorded on the Sep 19 row
 
-## Phase 1 — in review
+## Phase 1 — done (Oct 2)
 
-- [ ] **Review and merge the Phase 1 PR** (freeze the Orca dashboard at `/orca-2026/`, link it
-      from the root page). Open https://kyhuber.github.io/run-with-kai/orca-2026/ on your phone
-      after the Pages run finishes and check the plan, the actuals and the race result read as
-      before.
+- [x] Orca dashboard frozen at https://kyhuber.github.io/run-with-kai/orca-2026/
 
-## Phase 2 — blocks as the unit (Block 1 starts Sat Oct 3, so this is next)
+## Phase 2 — in review
 
-Confirmed Oct 1: **Block 1 runs Oct 3 to Nov 15, 2026, ends in a 5K, and keeps the long run
-through the block.** Still needed before Claude Code can seed it fully; it will stop and ask
-rather than guess:
-
-- [ ] **The 5K itself.** Assumed to be a time trial on Sun Nov 15 unless you name a race, a date
-      or a course.
-- [ ] **Block 1 sessions.** Claude Code will not invent workouts. Until you supply them from the
-      Running project in claude.ai, Block 1 ships with `plan: []` and `goalPace: null`.
+- [ ] **Review and merge the Phase 2 PR** (blocks as the unit: `blocks.js`, the block picker,
+      Block 1 as current). After the Pages run finishes, open the root page on your phone: it
+      should read "Run with Kai · Speed block", count down to the Nov 15 time trial, show no goal
+      pace, and list the four pre-Orca runs under Between Blocks. Pick "Orca Half" in the header
+      to see the Orca block in the new shape.
+- [ ] **Block 1 sessions.** The block ships with an empty plan. Paste the sessions from the
+      Running project (date, type, description, distance, and a meeting point where friends can
+      join) and Claude Code adds them to `blocks.js`; or ask Claude Code to draft them from the
+      skill's principles for you to approve.
+- [ ] **Block 1 goal pace**, if you want one. It is `null` today, which the brief allows: no goal
+      lines, no projected finish. The two benchmarks already project a 5K of roughly 22–23 minutes.
+- [ ] **Five race-day exports were never merged.** `export-2026-09-19-1622`, `-1715a`, `-1715b`,
+      `-1750-corrects` and `-1805-corrects` in `run-health-exports` postdate the commit that
+      logged the race. Claude Code will read them through the Drive connector and merge whatever
+      they add (likely Kai's account and corrections) in a small data PR after Phase 2.
 
 ## Before Phase 3 (new views)
 

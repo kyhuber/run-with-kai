@@ -6,9 +6,15 @@ Phase 6 of the refactor). Unlisted: shared by link with Kai's running friends, w
 upcoming runs they can join and to talk about results.
 
 - `data.js` — the continuous run log (`SEEDED_ACTUALS`, `CROSS_TRAINING`, `RESTING_HR`, `HRV`),
-  `GOAL_PACE`, `DATA_THROUGH`. This is the file that changes when new runs land.
-- `index.html` — `PLAN`, `HR_ZONES`, and all rendering. Changes only when the plan changes.
-  (Plan data moves to `blocks.js` in Phase 2 of the refactor.)
+  `DATA_THROUGH`, and `GOAL_PACE` (now only the Orca block's goal, read by `blocks.js`). This is
+  the file that changes when new runs land.
+- `blocks.js` — every training block: dates, test, goal pace (or `null`), pace zones, plan
+  sessions, optional race-day plan. The file that changes when a plan changes. Its header
+  documents the shape.
+- `index.html` — `HR_ZONES` and all rendering. Shows the block containing today's Pacific
+  date (else the next one to start, else the last), with a picker for past blocks. Changes
+  only when the rendering changes.
+- `orca-2026/` — the Orca Half dashboard frozen at its post-race state. Never receives new runs.
 - `skills/run-training-analysis/SKILL.md` — **the canonical generic reference.** Read it before
   touching either file. It carries the training context, the Drive export pipeline, the merge
   rules, and a **monitoring rule that is a safety rule, not an analysis preference** — pain that
@@ -74,9 +80,10 @@ Never say "today", "yesterday", or "last night" from the environment's date. Dri
 
 ## Conventions worth knowing before an edit
 
-- **Never hardcode a goal pace.** `window.GOAL_PACE` in `data.js` is the only source today, and
-  each block's config is the only source once `blocks.js` exists; the projected finish, the
-  pace-chart goal line, and the goal-pace session targets all derive from it. Phone-side export
+- **Never hardcode a goal pace.** Each block's `goalPace` in `blocks.js` is the only source (the
+  Orca block reads `window.GOAL_PACE` from `data.js`, as the brief asked); the projected finish,
+  the pace-chart goal line, the goal-pace session targets and the race-day plan all derive from
+  it, and `null` renders none of them. Phone-side export
   notes have repeatedly carried a stale `7:56` — correct them in a comment, but keep the flag
   text verbatim.
 - **`mins` is moving time**, not elapsed, wherever the two differ. Where a run has a real
@@ -84,9 +91,9 @@ Never say "today", "yesterday", or "last night" from the environment's date. Dri
 - **Never estimate a missing measurement.** Omit `elevGainFt`, `cadenceAvg`, `hrAvg` and the
   rest rather than back-filling them. An absent field is fine; an invented one corrupts the
   analysis.
-- **Bump `?v=` on the `data.js` script tag in `index.html` on every data change.** The two
-  files cache separately, and a fresh page paired with a stale dataset will call synced
-  sessions missed.
+- **Bump `?v=` on the `data.js` script tag in `index.html` on every data change, and on the
+  `blocks.js` tag on every plan change.** The files cache separately, and a fresh page paired
+  with a stale dataset will call synced sessions missed.
 - **Runs under 1.0 mi stay out**, and every `SEEDED_ACTUALS` row needs a `dist` —
   `index.html` calls `c.dist.toFixed(2)` unguarded.
 
@@ -95,7 +102,7 @@ Never say "today", "yesterday", or "last night" from the environment's date. Dri
 There are no tests and no CI. Validate directly:
 
 ```sh
-node --check data.js
+node --check data.js blocks.js
 python3 -m http.server 8899    # then load index.html headless at 380px wide and check for page errors
 ```
 
