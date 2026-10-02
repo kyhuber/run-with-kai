@@ -1,9 +1,10 @@
 // Run with Kai — training data
 // Edit this file to update run data; index.html reads these as globals.
 
-// Goal race pace, min:sec per mile. Drives the projected finish time, the
-// target paces on goal-pace sessions in weeks 7-8, the dashed line on the
-// pace chart, and the 10K time the Predicted Finish card asks you to hit.
+// The Orca block's goal race pace, min:sec per mile. blocks.js reads it into that block,
+// where it drives the projected finish, the goal-pace session bands, the dashed line on
+// the pace chart and the race-day plan. Later blocks carry their own goalPace (or null)
+// in blocks.js, so this value never applies beyond the Orca half.
 // Set from the Aug 22 benchmark: 6.01 mi in 44.16 (7:21/mi) projects to 1:40:56
 // via Riegel. Riegel assumes endurance scales with speed; the longest run this
 // cycle is 9.02 mi, so this target leads the endurance base rather than reflecting it.
