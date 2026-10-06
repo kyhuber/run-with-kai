@@ -94,8 +94,8 @@ Never say "today", "yesterday", or "last night" from the environment's date. Dri
 - **Bump `?v=` on the `data.js` script tag in `index.html` on every data change, and on the
   `blocks.js` tag on every plan change.** The files cache separately, and a fresh page paired
   with a stale dataset will call synced sessions missed.
-- **Runs under 1.0 mi stay out**, and every `SEEDED_ACTUALS` row needs a `dist` —
-  `index.html` calls `c.dist.toFixed(2)` unguarded.
+- **Runs under 1.0 mi stay out**, and every `SEEDED_ACTUALS` row needs a `dist`. A
+  `CROSS_TRAINING` entry may omit `dist` (strength sessions have none) and renders as minutes.
 
 ## Checking a change
 

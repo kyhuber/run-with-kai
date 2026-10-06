@@ -259,8 +259,69 @@ window.BLOCKS = [
     // named race later, in which case label and date move here.
     test:{date:"2026-11-15", label:"5K time trial", distanceMi:3.10686},
     goalPace:null,
-    // Sessions come from Kai's Running project in claude.ai. Until he supplies them the plan is
-    // empty on purpose — the page says so rather than inventing workouts.
-    plan:[],
+    // Bands for the plan's session types, decimal min/mi. Easy and Long are the Orca block's
+    // Zone 2 calibration, with Long eased 20 s/mi because the block starts off a race and a quad
+    // episode; heart rate (at or under 149) stays the real test of an easy day. Interval and
+    // Tempo are effort bands, not a goal: the two benchmarks project a 5K between 21:57 (from
+    // the Aug 22 10K) and 23:02 (from the Orca half over 13.1 mi, with the walk inside it), so
+    // 5K effort sits at 7:00-7:24/mi and 10K effort at 7:30-7:51. They move if the first
+    // interval session says they should.
+    paceZones:{
+      Easy:[9.5,10.25], Group:[9.0,9.5], Long:[9.0,9.75],
+      Tempo:[7.5,7.85], Interval:[7.0,7.4]
+    },
+    weekPhases:["Rebuild", "Rebuild", "Build", "Build", "Peak", "Sharpen", "Test week"],
+    // Drafted Oct 5 by Claude Code from the skill's principles and the run log, for Kai to approve
+    // or edit: 3-4 runs a week, Tuesday quality, Thursday easy with the club run substituting
+    // when it falls there, an optional short Saturday, a Sunday long run that climbs 5-6-7-8 and
+    // then backs off, and strength twice a week on Monday and Wednesday -- never the day of or
+    // the day before the long run. Nothing is scheduled on Oct 3-4, which were already past when
+    // the plan was written. The weeks run Saturday to Friday because the block starts on a
+    // Saturday. The PT visit later in October outranks any of this; until then the ramp stays
+    // conservative and every run carries the cue.
+    plan:[
+      // Week 1 (Oct 3-9) — Rebuild. Two runs: the block opens mid-week.
+      {date:"2026-10-06", day:"Tue", type:"Easy", desc:"Easy run + 4×20 s strides — conversational miles, then four relaxed pickups on flat ground with a full walk back between. Foam roll first; cue on.", dist:3},
+      {date:"2026-10-07", day:"Wed", type:"Strength", desc:"Strength — 20-30 min of the single-leg base from the PT's sheet (bridges, single-leg squats, lateral lunges, balance, hops)", dist:0},
+      {date:"2026-10-08", day:"Thu", type:"Easy", desc:"Easy run — true Zone 2, hold back. Club run substitutes if it falls on Thursday", dist:3.5},
+      // Week 2 (Oct 10-16) — Rebuild. First long run of the block and the first reps.
+      {date:"2026-10-10", day:"Sat", type:"Easy", desc:"Easy run, short — the optional fourth day. Skip it if the legs say so", dist:3},
+      {date:"2026-10-11", day:"Sun", type:"Long", desc:"Long run, easy — flat and familiar. Carry a gel and use it around 40 min, as on race day", dist:5},
+      {date:"2026-10-12", day:"Mon", type:"Strength", desc:"Strength — single-leg base, 20-30 min", dist:0},
+      {date:"2026-10-13", day:"Tue", type:"Interval", desc:"1 mi WU + 6×400 m at 5K effort (90 s easy jog between) + 1 mi CD — hard but controlled, solo is fine", dist:4},
+      {date:"2026-10-14", day:"Wed", type:"Strength", desc:"Strength — single-leg base, 20-30 min", dist:0},
+      {date:"2026-10-15", day:"Thu", type:"Easy", desc:"Easy run — true Zone 2, hold back. Club run substitutes", dist:4},
+      // Week 3 (Oct 17-23) — Build.
+      {date:"2026-10-17", day:"Sat", type:"Easy", desc:"Easy run, short + 4×20 s strides — optional", dist:3},
+      {date:"2026-10-18", day:"Sun", type:"Long", desc:"Long run, easy — flat and familiar, finish easy rather than kicking", dist:6},
+      {date:"2026-10-19", day:"Mon", type:"Strength", desc:"Strength — single-leg base, 20-30 min", dist:0},
+      {date:"2026-10-20", day:"Tue", type:"Interval", desc:"1 mi WU + 5×600 m at 5K effort (2 min easy jog between) + 1 mi CD", dist:4.5},
+      {date:"2026-10-21", day:"Wed", type:"Strength", desc:"Strength — single-leg base, 20-30 min", dist:0},
+      {date:"2026-10-22", day:"Thu", type:"Easy", desc:"Easy run — true Zone 2, hold back. Club run substitutes", dist:4},
+      // Week 4 (Oct 24-30) — Build. The PT visit is expected around here: nothing novel this week,
+      // and whatever she says replaces what follows.
+      {date:"2026-10-24", day:"Sat", type:"Easy", desc:"Easy run, short — optional", dist:3},
+      {date:"2026-10-25", day:"Sun", type:"Long", desc:"Long run, easy — flat and familiar; gel around 40 min", dist:7},
+      {date:"2026-10-26", day:"Mon", type:"Strength", desc:"Strength — single-leg base, 20-30 min", dist:0},
+      {date:"2026-10-27", day:"Tue", type:"Tempo", desc:"1 mi WU + 2 mi at 10K effort (steady and even, not a race) + 1 mi CD", dist:4},
+      {date:"2026-10-28", day:"Wed", type:"Strength", desc:"Strength — single-leg base, 20-30 min", dist:0},
+      {date:"2026-10-29", day:"Thu", type:"Easy", desc:"Easy run — true Zone 2, hold back. Club run substitutes", dist:4},
+      // Week 5 (Oct 31-Nov 6) — Peak. The longest run of the block and the longest reps.
+      {date:"2026-10-31", day:"Sat", type:"Easy", desc:"Easy run, short + 4×20 s strides — optional", dist:3},
+      {date:"2026-11-01", day:"Sun", type:"Long", desc:"Long run, easy — the longest of the block. Flat, familiar, fuelled; finish easy", dist:8},
+      {date:"2026-11-02", day:"Mon", type:"Strength", desc:"Strength — single-leg base, 20-30 min", dist:0},
+      {date:"2026-11-03", day:"Tue", type:"Interval", desc:"1 mi WU + 4×800 m at 5K effort (2 min easy jog between) + 1 mi CD — even reps, the last no faster than the first", dist:4.5},
+      {date:"2026-11-04", day:"Wed", type:"Strength", desc:"Strength — single-leg base, 20-30 min", dist:0},
+      {date:"2026-11-05", day:"Thu", type:"Easy", desc:"Easy run — true Zone 2, hold back. Club run substitutes", dist:4},
+      // Week 6 (Nov 7-13) — Sharpen. Volume comes down; one short, quick session to stay sharp.
+      {date:"2026-11-07", day:"Sat", type:"Easy", desc:"Easy run, short — optional", dist:3},
+      {date:"2026-11-08", day:"Sun", type:"Long", desc:"Long run, easy — shorter on purpose; the taper starts here", dist:6},
+      {date:"2026-11-09", day:"Mon", type:"Strength", desc:"Strength — last loaded session before the test; nothing new, nothing heavy", dist:0},
+      {date:"2026-11-10", day:"Tue", type:"Interval", desc:"1 mi WU + 4×400 m at 5K effort (full recovery between) + 1 mi CD — sharpen, don't dig", dist:3.5},
+      {date:"2026-11-12", day:"Thu", type:"Easy", desc:"Easy run, short — nothing hard. Club run only if it stays easy", dist:3},
+      // Week 7 (Nov 14-15) — Test week: the two days the block ends on.
+      {date:"2026-11-14", day:"Sat", type:"Easy", desc:"Shakeout — 2 mi easy + 4×20 s strides at 5K effort. Foam roll first", dist:2},
+      {date:"2026-11-15", day:"Sun", type:"Benchmark", desc:"5K time trial — flat and measured, all-out but even: settle in the first half mile, hold, then close. Foam roll first, cue on, music on", dist:3.1},
+    ],
   },
 ];
