@@ -786,15 +786,19 @@ window.SEEDED_ACTUALS = [
   // time (35:38 against 38:14 elapsed). Kai's account: nervous about the knee and quad at the
   // start and a little pain early, fading as he warmed up and gained confidence, none at all by
   // the finish, and he felt great. Different shape from Sep 13 and Sep 19, where the pain came
-  // at mile 6 and built -- noted for the PT visit, not read into. Why he stopped is not known.
+  // at mile 6 and built -- noted for the PT visit, not read into. The stops, per Kai on Oct 5:
+  // he ran into a neighbour and chatted, and he adjusted his shoes while stopped at a red
+  // light. Neither was about the knee. Whether the early pain changed his stride is still
+  // unanswered; the flag below stays as the export wrote it.
   // Splits, 140 avg, 168 spm and the 211 ft of gain are Apple's own from the Fitness screens;
   // an earlier derived-split version of this pull was superseded. 48 F, overcast, 95% humidity.
   {date:"2026-10-01", dist:4.27, mins:35.64, hrAvg:140, hrMax:169, cadenceAvg:168,
    elevGainFt:211, elev:"211 ft gain",
    note:"Started nervous about the knee and quad and felt a little pain early on. As he grew " +
         "more confident he began to accelerate, and he finished with no pain at all and felt " +
-        "great. Two stops, about 30 s just after starting and about 2 min at roughly 1.2 mi; " +
-        "reason not yet given.",
+        "great. Two stops, about 30 s just after starting and about 2 min at roughly 1.2 mi: " +
+        "ran into a neighbour and chatted, and adjusted his shoes at a red light. Neither " +
+        "was about the knee. (Given Oct 5.)",
    flags:[
      "Knee/quad, per the monitoring rule: a little pain early in the run that faded as he warmed up and gained confidence, gone entirely by the finish. Kai did not say whether it changed his stride, or whether either stop was related to it. No swelling reported, but not asked about directly.",
      "Pain timing differs from the Sep 13 and Sep 19 episodes: those began around mile 6 and built with fatigue; this was early and resolved as the run went on, under increasing pace. Observation only -- one for the PT's review later in October.",
@@ -844,10 +848,11 @@ window.CROSS_TRAINING = [
   {date:"2026-09-19", kind:"Walking", dist:1.02, mins:23.17,
    note:"Pre-race walk to the start — race-day record, not training load"},
   // The first strength session on the watch, four days after the race. HealthKit records the
-  // type and the time, not the exercises, and Kai has not said which ones; no distance, which
-  // is what a strength session has, so the renderer shows minutes only.
+  // type and the time, not the exercises; Kai says (Oct 5) it was a core, legs and upper-body
+  // mix from Apple Fitness, not the PT's sheet. No distance, which is what a strength session
+  // has, so the renderer shows minutes only.
   {date:"2026-09-23", kind:"Strength", mins:10.86, hrAvg:127, hrMax:150,
-   note:"Strength training, 11 min — exercises not recorded"},
+   note:"Strength training, 11 min — a core, legs and upper-body mix from Apple Fitness, not the PT's sheet"},
   {date:"2026-09-28", kind:"Walking", dist:0.91, mins:17.28, hrAvg:103, hrMax:117,
    note:"Recorded walk — cross-training only"},
 ];

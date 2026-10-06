@@ -23,20 +23,14 @@ each phase.
       should read "Run with Kai · Speed block", count down to the Nov 15 time trial, show no goal
       pace, and list the four pre-Orca runs under Between Blocks. Pick "Orca Half" in the header
       to see the Orca block in the new shape.
-- [ ] **Review the Block 1 plan.** Kai asked for it on Oct 5 and Claude Code drafted it from the
-      skill's principles and the run log (in `blocks.js`, with the reasoning in its comments):
-      3-4 runs a week, Tuesday quality, Thursday easy with the club substituting, an optional
-      short Saturday, a Sunday long run climbing 5-6-7-8 then backing off, strength Monday and
-      Wednesday. Edit anything in the PR, or tell Claude Code what to change. The late-October
-      PT visit outranks weeks 4-7.
+- [x] **Block 1 plan merged (Oct 5).** Edit any session in `blocks.js`, or tell Claude Code what
+      to change. The late-October PT visit outranks weeks 4-7.
 - [ ] **Block 1 goal pace**, if you want one. It is `null` today, which the brief allows: no goal
       lines, no projected finish. The two benchmarks already project a 5K of roughly 22–23 minutes.
 - [x] **The Sep 19 evening exports are merged** (data PR after Phase 2).
 - [x] **The Oct 2 exports are merged** with the plan PR: Sep 27 and Oct 1 runs, the Sep 23
       strength session, resting HR and HRV through Oct 1. `DATA_THROUGH` is Oct 1.
-- [ ] **Upload personal skill v5** (sent Oct 5): v4 plus the one-line change to the consume rule
-      that lets a strength session sit in `CROSS_TRAINING` without a distance. The skill copy
-      in claude.ai is still v3 as of Oct 5.
+- [x] **Personal skill v5 uploaded (Oct 5).**
 
 ## Before Phase 3 (new views)
 
