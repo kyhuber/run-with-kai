@@ -16,13 +16,9 @@ each phase.
 
 - [x] Orca dashboard frozen at https://kyhuber.github.io/run-with-kai/orca-2026/
 
-## Phase 2 — in review
+## Phase 2 — done
 
-- [ ] **Review and merge the Phase 2 PR** (blocks as the unit: `blocks.js`, the block picker,
-      Block 1 as current). After the Pages run finishes, open the root page on your phone: it
-      should read "Run with Kai · Speed block", count down to the Nov 15 time trial, show no goal
-      pace, and list the four pre-Orca runs under Between Blocks. Pick "Orca Half" in the header
-      to see the Orca block in the new shape.
+- [x] **Phase 2 merged** (blocks as the unit: `blocks.js`, the block picker, Block 1 as current).
 - [x] **Block 1 plan merged (Oct 5).** Edit any session in `blocks.js`, or tell Claude Code what
       to change. The late-October PT visit outranks weeks 4-7.
 - [ ] **Block 1 goal pace**, if you want one. It is `null` today, which the brief allows: no goal
@@ -31,11 +27,19 @@ each phase.
 - [x] **The Oct 2 exports are merged** with the plan PR: Sep 27 and Oct 1 runs, the Sep 23
       strength session, resting HR and HRV through Oct 1. `DATA_THROUGH` is Oct 1.
 - [x] **Personal skill v5 uploaded (Oct 5).**
+- [ ] **Merge the Oct 5 data PR tonight, before Tuesday's run.** It logs Monday's unscheduled
+      run and changes the next three sessions: Tuesday becomes a recovery run, its strides move to
+      Thursday, and the Oct 11 long run asks for an even finish. It also adopts Apple's new zones,
+      which put the Zone 2 ceiling at 148. Every upcoming easy and long run now shows that cap.
+      `DATA_THROUGH` is Oct 4.
+- [ ] **Tell Claude Code how Monday's run felt.** Did the knee or quad hurt, did it change your
+      stride, and is there any swelling? Also: did mile 4 run downhill, and was music on? Still
+      open from Oct 1: did the early pain change your stride?
 
 ## Before Phase 3 (new views)
 
 - [ ] **`Z2_BAND`** for the aerobic-efficiency chart. Your project notes conflict between
-      136–142 bpm and ≤149 bpm. Pick one.
+      136–142 bpm and ≤149 bpm. Pick one. Apple's own Zone 2 has since moved to 139–148 (Oct 5).
 - [ ] **Meeting-point wording** for the Upcoming view: what a session shows when it has a
       `meetingPoint`, and the default when it does not (the brief proposes "ask Kai"). Never a home
       address, GPS route or start coordinates.
@@ -80,8 +84,3 @@ each phase.
       episode, which the run log says must happen before the next block is built in earnest, and
       a **new strength plan oriented to running and skiing**. Until then, rows 3–10 of her 2024
       sheet are the starting point, as she suggested. Both go in the personal skill, not here.
-
-- [ ] The Sep 19 race entry in `data.js` carries the watch time (1:45:45 for 13.22 mi). Swap in
-      the official chip time when you have it.
-- [ ] The PT review of the race-day knee episode, which the run log says must happen before the
-      next block is built. Whatever comes of it goes in the personal skill, not here.

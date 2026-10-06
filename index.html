@@ -14,8 +14,8 @@
      separately, so without it a fresh page can load a stale dataset -- and
      since the page now reads DATA_THROUGH from data.js, that pairing would
      silently fall back to calling unsynced sessions missed. -->
-<script src="data.js?v=24"></script>
-<script src="blocks.js?v=2"></script>
+<script src="data.js?v=25"></script>
+<script src="blocks.js?v=3"></script>
 
 <style>
   :root{
@@ -166,9 +166,11 @@
   .pill.rest{background:rgba(255,255,255,0.06); color:var(--text-dim);}
   .pill.cross{background:rgba(135,171,180,0.16); color:var(--text-muted);}
   .pill.strength{background:rgba(135,171,180,0.16); color:var(--text-muted);}
+  .pill.extra{background:rgba(255,255,255,0.06); color:var(--text-muted);}
   .s-desc{font-size:0.88rem; color:var(--text-muted); margin-top:4px;}
   .s-target{font-family:var(--font-mono); font-size:0.78rem; color:var(--text-dim); margin-top:3px;}
   .s-cap{color:var(--coral);}
+  .s-adjusted{font-size:0.78rem; color:var(--gold); margin-top:4px;}
   .s-right{flex:none; text-align:right; min-width:118px;}
   .badge{display:inline-block; font-size:0.74rem; padding:3px 9px; border-radius:20px; font-weight:600; white-space:nowrap;}
   .badge.done{background:var(--teal-dim); color:var(--teal);}
@@ -488,9 +490,15 @@
   // carries, which now reads Zone 2 exactly as Apple's own screen does.
   //
   // The Sep 10 and Sep 13 exports both report the same <139 / 140-149 boundaries -- four
-  // exports running now -- which is what moves asOf. The bands have not changed since.
-  const HR_ZONES = {asOf:"2026-10-01", bands:[
-    {zone:1, max:139}, {zone:2, max:149}, {zone:3, max:159},
+  // exports running now -- which is what moves asOf.
+  //
+  // Oct 5: Apple moved them again, by one beat. The Heart Rate screen for the Oct 5 run reads
+  // Z1 <138, Z2 139-148, Z3 149-159, so zone 1 now tops out at 138 by the same reading as
+  // above, and the Zone 2 ceiling -- the easy-day test -- is 148. Zones 4 and 5 did not move.
+  // Past runs on this page are labelled against today's bands; the archived Orca page keeps
+  // the bands it had.
+  const HR_ZONES = {asOf:"2026-10-05", bands:[
+    {zone:1, max:138}, {zone:2, max:148}, {zone:3, max:159},
     {zone:4, max:169}, {zone:5, max:Infinity},
   ]};
   function hrZone(bpm){ return HR_ZONES.bands.find(b=>bpm<=b.max).zone; }
@@ -1130,6 +1138,14 @@
     const qualityStr = qualityTargetStr(session);
     const easyStr = easyPaceStr(session);
 
+    // An easy day is judged on heart rate, not pace, and the verdict below only arrives after
+    // the run. Every run since the half drifted out of Zone 2, so the ceiling goes on the
+    // session before it is run as well. Read from HR_ZONES, so it moves when Apple's does. A long
+    // run with a quality block is not an easy run end to end, so it does not get one.
+    const hrCapStr = status==="upcoming" && !session.quality
+      && (session.type==="Easy" || session.type==="Long")
+      ? `\u2665 at or under ${ZONE2_MAX_HR} bpm — Zone 2` : "";
+
     let badge, actualLine="";
     if(status==="done"){
       badge = `<span class="badge done">✓ Synced</span>`;
@@ -1200,6 +1216,8 @@
         ${targetStr?`<div class="s-target">${targetStr}</div>`:""}
         ${qualityStr?`<div class="s-target s-cap">${qualityStr}</div>`:""}
         ${easyStr?`<div class="s-target">${easyStr}</div>`:""}
+        ${hrCapStr?`<div class="s-target">${hrCapStr}</div>`:""}
+        ${session.adjusted?`<div class="s-adjusted">${esc(session.adjusted)}</div>`:""}
       </div>
       <div class="s-right">${badge}${actualLine}</div>
       ${status==="done" ? runLogHTML(actual) : ""}
@@ -1323,13 +1341,18 @@
         ? `${uDist(planned,1)} ${uLabel()} planned · <span class="wk-logged">${uDist(logged,1)} logged</span>`
         : `${uDist(planned,1)} ${uLabel()} planned`;
       const head = [wk.phase, wk.range, miles].filter(Boolean).join(" · ");
+      // Planned sessions and unscheduled runs, in date order. A run on a strength day sorts
+      // after the strength row, the way the day would have gone.
+      const rows = shown.map(x=>({date:x.date, html:sessionRowHTML(x, actuals, today)}))
+        .concat(unscheduledRuns(wk, actuals).map(a=>({date:a.date, html:loggedRunRowHTML(a, "Unscheduled", "extra")})))
+        .sort((x,y)=>x.date.localeCompare(y.date)).map(r=>r.html).join("");
       return `<div class="week-acc${isPast?" is-past":""}">
         <button class="week-head" aria-expanded="false" data-idx="${wk.idx}">
           <span><span class="wk-title">Week ${wk.week}</span> — <span class="wk-phase">${head}</span></span>
           <span class="wk-arrow">›</span>
         </button>
         <div class="week-body" id="wk-body-${wk.idx}">
-          ${shown.map(s=>sessionRowHTML(s, actuals, today)).join("")}
+          ${rows}
           ${missedNoteHTML(hidden)}
         </div>
       </div>`;
@@ -1348,6 +1371,28 @@
       const btn=el.querySelector(`.week-head[data-idx="${idx}"]`);
       if(body && btn){ body.classList.add("open"); btn.setAttribute("aria-expanded","true"); }
     }
+  }
+
+  // A logged run with no session to hang it on: one outside every block, or one inside a block
+  // on a day the plan left empty. Same row either way, so it reads as a run, with its notes.
+  function loggedRunRowHTML(a, label, pillClass){
+    const dow=new Date(a.date+"T00:00:00").toLocaleDateString("en-US",{weekday:"short"});
+    const hr = a.hrAvg ? `<div class="s-actual" style="color:var(--coral);">♥ ${a.hrAvg} avg${a.hrMax?` · ${a.hrMax} max`:""}</div>` : "";
+    return `<div class="session">
+      <div class="s-date"><span class="dow">${dow}</span>${fmtDate(a.date)}</div>
+      <div class="s-mid"><span class="pill ${pillClass}">${label}</span><div class="s-desc">${uDist(a.dist)} ${uLabel()} @ ${fmtUPace(a.mins/a.dist)}</div>${a.elev?`<div class="s-target">${esc(a.elev)}</div>`:""}</div>
+      <div class="s-right"><span class="badge done">✓ Synced</span>${hr}</div>
+      ${runLogHTML(a)}
+    </div>`;
+  }
+
+  // Runs inside the block on a day with no run planned. Without this a run Kai chose to do on
+  // an empty day counted toward the week's miles and the charts but appeared nowhere in the
+  // schedule, notes and all. A strength day is not a run session, so a run on one lands here
+  // too rather than vanishing behind the strength row.
+  function unscheduledRuns(wk, actuals){
+    return actuals.filter(a=>a.date>=wk.start && a.date<=wk.end && !ANCILLARY.has(a.segment)
+      && !block.plan.some(s=>s.date===a.date && s.type!=="Strength"));
   }
 
   // Runs that fall in no block: before the first, between two, after the last. Grouped by
@@ -1369,16 +1414,8 @@
     if(!shown.length){ el.innerHTML=`<p class="predict-empty">Every logged run falls inside a block.</p>`; return; }
     el.innerHTML = shown.map(g=>{
       const runs = runsIn(g).sort((a,b)=>b.date.localeCompare(a.date));
-      const rows = runs.length ? runs.map(a=>{
-        const dow=new Date(a.date+"T00:00:00").toLocaleDateString("en-US",{weekday:"short"});
-        const hr = a.hrAvg ? `<div class="s-actual" style="color:var(--coral);">♥ ${a.hrAvg} avg${a.hrMax?` · ${a.hrMax} max`:""}</div>` : "";
-        return `<div class="session">
-          <div class="s-date"><span class="dow">${dow}</span>${fmtDate(a.date)}</div>
-          <div class="s-mid"><span class="pill easy">Run</span><div class="s-desc">${uDist(a.dist)} ${uLabel()} @ ${fmtUPace(a.mins/a.dist)}</div>${a.elev?`<div class="s-target">${esc(a.elev)}</div>`:""}</div>
-          <div class="s-right"><span class="badge done">✓ Synced</span>${hr}</div>
-          ${runLogHTML(a)}
-        </div>`;
-      }).join("") : `<p class="gap-empty">Nothing logged ${fmtDate(g.from)} – ${fmtDate(g.to)}.</p>`;
+      const rows = runs.length ? runs.map(a=>loggedRunRowHTML(a, "Run", "easy")).join("")
+        : `<p class="gap-empty">Nothing logged ${fmtDate(g.from)} – ${fmtDate(g.to)}.</p>`;
       return `<div class="gap-head">${esc(g.label)}</div>${rows}`;
     }).join("");
   }

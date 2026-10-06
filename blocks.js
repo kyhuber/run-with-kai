@@ -18,8 +18,11 @@
 //   paceZones     per-type pace bands for the plan's sessions, decimal min/mi (optional)
 //   weekPhases    one label per week for the schedule headings (optional)
 //   plan          sessions in the shape index.html has always used:
-//                 {date, day, type, desc, dist, useGoal?, quality?, easyPace?, skipped?, meetingPoint?}
+//                 {date, day, type, desc, dist, useGoal?, quality?, easyPace?, skipped?, meetingPoint?,
+//                  adjusted?}
 //                 Empty until Kai supplies the sessions; the page never invents workouts.
+//                 `adjusted` is one line on why a session changed after the plan was written,
+//                 starting with the date of the change. The page prints it under the session.
 //   raceDayPlan   optional { openSec, segments:[...] }. Renders on the test day only, and only
 //                 when the block has a goal pace, because every band is an offset from it.
 //   archive       optional path to a frozen copy of the page as it stood when the block ended
@@ -261,7 +264,9 @@ window.BLOCKS = [
     goalPace:null,
     // Bands for the plan's session types, decimal min/mi. Easy and Long are the Orca block's
     // Zone 2 calibration, with Long eased 20 s/mi because the block starts off a race and a quad
-    // episode; heart rate (at or under 149) stays the real test of an easy day. Interval and
+    // episode; heart rate at or under Apple's Zone 2 ceiling (HR_ZONES in index.html, 148 as of
+    // Oct 5) stays the real test of an easy day, and the page prints it on every upcoming easy
+    // and long run. Interval and
     // Tempo are effort bands, not a goal: the two benchmarks project a 5K between 21:57 (from
     // the Aug 22 10K) and 23:02 (from the Orca half over 13.1 mi, with the walk inside it), so
     // 5K effort sits at 7:00-7:24/mi and 10K effort at 7:30-7:51. They move if the first
@@ -279,14 +284,24 @@ window.BLOCKS = [
     // the plan was written. The weeks run Saturday to Friday because the block starts on a
     // Saturday. The PT visit later in October outranks any of this; until then the ramp stays
     // conservative and every run carries the cue.
+    //
+    // Adjusted Oct 5 after an unscheduled Monday run (4.02 mi, 154 bpm, closing at 7:30), the
+    // third run since the half to finish at tempo pace or faster. Tuesday becomes a pure recovery
+    // run, its strides move to Thursday, and the first long run asks for an even finish. Week 1
+    // is now Mon/Tue/Thu, about 10.5 mi if all three happen, against 7.4 in the Saturday-to-Friday
+    // week before it (Sep 27 and Oct 1); still well inside what the Orca block built, and the
+    // long-run check is not in play this week.
     plan:[
       // Week 1 (Oct 3-9) — Rebuild. Two runs: the block opens mid-week.
-      {date:"2026-10-06", day:"Tue", type:"Easy", desc:"Easy run + 4×20 s strides — conversational miles, then four relaxed pickups on flat ground with a full walk back between. Foam roll first; cue on.", dist:3},
+      {date:"2026-10-06", day:"Tue", type:"Easy", desc:"Recovery run — the slowest run of the week, conversational the whole way. If heart rate won't stay in Zone 2, slow down or walk a minute. Foam roll first; cue on.", dist:3,
+       adjusted:"Changed Oct 5: strides moved to Thursday, because Monday's unplanned run already closed at 7:30. Skip today if the knee or quad hurts in a way that changes your stride, or if there's any swelling."},
       {date:"2026-10-07", day:"Wed", type:"Strength", desc:"Strength — 20-30 min of the single-leg base from the PT's sheet (bridges, single-leg squats, lateral lunges, balance, hops)", dist:0},
-      {date:"2026-10-08", day:"Thu", type:"Easy", desc:"Easy run — true Zone 2, hold back. Club run substitutes if it falls on Thursday", dist:3.5},
+      {date:"2026-10-08", day:"Thu", type:"Easy", desc:"Easy run + 4×20 s strides — true Zone 2, hold back, then four relaxed pickups on flat ground with a full walk back between. Club run substitutes if it falls on Thursday; skip the strides then", dist:3.5,
+       adjusted:"Changed Oct 5: the strides moved here from Tuesday."},
       // Week 2 (Oct 10-16) — Rebuild. First long run of the block and the first reps.
       {date:"2026-10-10", day:"Sat", type:"Easy", desc:"Easy run, short — the optional fourth day. Skip it if the legs say so", dist:3},
-      {date:"2026-10-11", day:"Sun", type:"Long", desc:"Long run, easy — flat and familiar. Carry a gel and use it around 40 min, as on race day", dist:5},
+      {date:"2026-10-11", day:"Sun", type:"Long", desc:"Long run, easy — flat and familiar, even pace to the end with no fast finish. Carry a gel and use it around 40 min, as on race day", dist:5,
+       adjusted:"Changed Oct 5: 'no fast finish' added. All three runs since the half closed at tempo pace or faster."},
       {date:"2026-10-12", day:"Mon", type:"Strength", desc:"Strength — single-leg base, 20-30 min", dist:0},
       {date:"2026-10-13", day:"Tue", type:"Interval", desc:"1 mi WU + 6×400 m at 5K effort (90 s easy jog between) + 1 mi CD — hard but controlled, solo is fine", dist:4},
       {date:"2026-10-14", day:"Wed", type:"Strength", desc:"Strength — single-leg base, 20-30 min", dist:0},
@@ -301,7 +316,7 @@ window.BLOCKS = [
       // Week 4 (Oct 24-30) — Build. The PT visit is expected around here: nothing novel this week,
       // and whatever she says replaces what follows.
       {date:"2026-10-24", day:"Sat", type:"Easy", desc:"Easy run, short — optional", dist:3},
-      {date:"2026-10-25", day:"Sun", type:"Long", desc:"Long run, easy — flat and familiar; gel around 40 min", dist:7},
+      {date:"2026-10-25", day:"Sun", type:"Long", desc:"Long run, easy — flat and familiar, finish easy; gel around 40 min", dist:7},
       {date:"2026-10-26", day:"Mon", type:"Strength", desc:"Strength — single-leg base, 20-30 min", dist:0},
       {date:"2026-10-27", day:"Tue", type:"Tempo", desc:"1 mi WU + 2 mi at 10K effort (steady and even, not a race) + 1 mi CD", dist:4},
       {date:"2026-10-28", day:"Wed", type:"Strength", desc:"Strength — single-leg base, 20-30 min", dist:0},
