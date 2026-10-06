@@ -14,8 +14,8 @@
      separately, so without it a fresh page can load a stale dataset -- and
      since the page now reads DATA_THROUGH from data.js, that pairing would
      silently fall back to calling unsynced sessions missed. -->
-<script src="data.js?v=22"></script>
-<script src="blocks.js?v=1"></script>
+<script src="data.js?v=23"></script>
+<script src="blocks.js?v=2"></script>
 
 <style>
   :root{
@@ -165,6 +165,7 @@
   .pill.benchmark, .pill.race{background:var(--gold-dim); color:var(--gold);}
   .pill.rest{background:rgba(255,255,255,0.06); color:var(--text-dim);}
   .pill.cross{background:rgba(135,171,180,0.16); color:var(--text-muted);}
+  .pill.strength{background:rgba(135,171,180,0.16); color:var(--text-muted);}
   .s-desc{font-size:0.88rem; color:var(--text-muted); margin-top:4px;}
   .s-target{font-family:var(--font-mono); font-size:0.78rem; color:var(--text-dim); margin-top:3px;}
   .s-cap{color:var(--coral);}
@@ -488,7 +489,7 @@
   //
   // The Sep 10 and Sep 13 exports both report the same <139 / 140-149 boundaries -- four
   // exports running now -- which is what moves asOf. The bands have not changed since.
-  const HR_ZONES = {asOf:"2026-09-13", bands:[
+  const HR_ZONES = {asOf:"2026-10-01", bands:[
     {zone:1, max:139}, {zone:2, max:149}, {zone:3, max:159},
     {zone:4, max:169}, {zone:5, max:Infinity},
   ]};
@@ -1023,6 +1024,9 @@
   }
 
   function sessionStatus(session, actuals, today){
+    // A strength day is not a run: the run log never matches it, and the pipeline only sees
+    // it when the watch recorded one. It reads as planned, logged, or not logged -- never missed.
+    if(session.type==="Strength") return {status:"rest"};
     const match = actuals.find(a=>a.date===session.date);
     if(match) return {status:"done", actual:match};
     if(session.type==="Rest") return {status:"rest"};
@@ -1091,7 +1095,22 @@
          + `${caveat}${noteHTML}${flagHTML}</details>`;
   }
 
+  function strengthRowHTML(session, today){
+    const logged = CROSS_TRAINING.find(c=>c.date===session.date && /strength/i.test(c.kind||""));
+    const past = new Date(session.date+"T00:00:00") < today;
+    const badge = logged ? `<span class="badge done">✓ Logged</span>`
+      : past ? `<span class="badge skipped">Not logged</span>`
+      : `<span class="badge upcoming">Planned</span>`;
+    const line = logged ? `<div class="s-actual">${Math.round(logged.mins)} min${logged.hrAvg ? ` · ♥ ${logged.hrAvg} avg` : ""}</div>` : "";
+    return `<div class="session">
+      <div class="s-date"><span class="dow">${session.day}</span>${fmtDate(session.date)}</div>
+      <div class="s-mid"><span class="pill strength">Strength</span><div class="s-desc">${esc(session.desc)}</div></div>
+      <div class="s-right">${badge}${line}</div>
+    </div>`;
+  }
+
   function sessionRowHTML(session, actuals, today, opts){
+    if(session.type==="Strength") return strengthRowHTML(session, today);
     const isNext = opts && opts.isNext;
     const desc = uDesc(session.desc);
     const {status, actual} = sessionStatus(session, actuals, today);
@@ -1104,6 +1123,8 @@
     const targetStr = session.type==="Benchmark" ? "All-out effort — no target pace"
       : session.type==="Rest" ? ""
       : fullyBanded ? `${uDist(session.dist,1)} ${uLabel()}`
+      : range && session.type==="Interval" ? `${uDist(session.dist,1)} ${uLabel()} · reps @ ${fmtPace(uPace(range[0]))}–${fmtUPace(range[1])}`
+      : range && session.type==="Tempo" && !session.useGoal ? `${uDist(session.dist,1)} ${uLabel()} · tempo miles @ ${fmtPace(uPace(range[0]))}–${fmtUPace(range[1])}`
       : range ? `${uDist(session.dist,1)} ${uLabel()} @ ${fmtPace(uPace(range[0]))}–${fmtUPace(range[1])}`
               : `${uDist(session.dist,1)} ${uLabel()}`;
     const qualityStr = qualityTargetStr(session);
@@ -1278,7 +1299,7 @@
     // Only the sessions still ahead of you; the rest of the week lives in the
     // full schedule below. The flag marks the next actual run — a rest day is
     // worth listing but isn't the thing you're getting ready for.
-    const nextRun = pending.find(s=>s.type!=="Rest");
+    const nextRun = pending.find(s=>s.type!=="Rest" && s.type!=="Strength");
     body.innerHTML = pending.map(s=>sessionRowHTML(s, actuals, today, {isNext:s===nextRun})).join("");
   }
 
@@ -1424,7 +1445,7 @@
     const labels = wks.map(w=>"W"+w.week);
     const planned = wks.map(w=>weekSessions(w).reduce((s,x)=>s+x.dist,0));
     const logged = wks.map(w=>weekLoggedMiles(w, actuals));
-    const cross = wks.map(w=>CROSS_TRAINING.filter(c=>c.date>=w.start && c.date<=w.end).reduce((s,c)=>s+c.dist,0));
+    const cross = wks.map(w=>CROSS_TRAINING.filter(c=>c.date>=w.start && c.date<=w.end).reduce((s,c)=>s+(c.dist||0),0));
     const ctx=document.getElementById("mileageChart");
     if(mileageChart) mileageChart.destroy();
     mileageChart = new Chart(ctx, {
@@ -1487,7 +1508,7 @@
         <div class="s-date"><span class="dow">${dow}</span>${fmtDate(c.date)}</div>
         <div class="s-mid">
           <span class="pill cross">${c.kind}</span>
-          <div class="s-desc">${uDist(c.dist)} ${uLabel()} · ${Math.round(c.mins)} min</div>
+          <div class="s-desc">${c.dist ? `${uDist(c.dist)} ${uLabel()} · ` : ""}${Math.round(c.mins)} min</div>
           ${c.note?`<div class="s-target">${c.note}</div>`:""}
         </div>
         <div class="s-right"><span class="badge done">✓ Synced</span>${hrLine}</div>

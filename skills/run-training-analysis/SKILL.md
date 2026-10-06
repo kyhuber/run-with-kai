@@ -217,9 +217,9 @@ health_query_v0     →     run-health-exports/    →     read → merge → da
    right; `createdTime` is only for ordering.
 2. Merge into `window.SEEDED_ACTUALS`, **deduping by `date`**. Existing rows win only if the
    incoming row has strictly less detail; otherwise the richer row replaces it.
-3. Keep runs under 1.0 mi out (accidental / partial recordings). Also drop any workout with
-   no distance — `index.html` calls `c.dist.toFixed(2)` unguarded, so a distance-less entry
-   breaks the page.
+3. Keep runs under 1.0 mi out (accidental / partial recordings). Every `SEEDED_ACTUALS` row
+   needs a `dist`; a `CROSS_TRAINING` entry may omit it (a strength session has none) and
+   renders as minutes only.
 4. Non-running workouts go to `window.CROSS_TRAINING`, not `SEEDED_ACTUALS` — they count for
    training load but must stay out of pace analysis.
 5. **Move `window.DATA_THROUGH` in `data.js` to the last date the pull covers in full**, and
