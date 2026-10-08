@@ -27,14 +27,17 @@ each phase.
 - [x] **The Oct 2 exports are merged** with the plan PR: Sep 27 and Oct 1 runs, the Sep 23
       strength session, resting HR and HRV through Oct 1. `DATA_THROUGH` is Oct 1.
 - [x] **Personal skill v5 uploaded (Oct 5).**
-- [ ] **Merge the Oct 5 data PR tonight, before Tuesday's run.** It logs Monday's unscheduled
-      run and changes the next three sessions: Tuesday becomes a recovery run, its strides move to
-      Thursday, and the Oct 11 long run asks for an even finish. It also adopts Apple's new zones,
-      which put the Zone 2 ceiling at 148. Every upcoming easy and long run now shows that cap.
-      `DATA_THROUGH` is Oct 4.
-- [ ] **Tell Claude Code how Monday's run felt.** Did the knee or quad hurt, did it change your
-      stride, and is there any swelling? Also: did mile 4 run downhill, and was music on? Still
-      open from Oct 1: did the early pain change your stride?
+- [x] **The Oct 5 data PR is merged.** Monday's unscheduled run is logged, Tuesday became a
+      recovery run, the strides moved to Thursday, and the Zone 2 cap is 148.
+- [ ] **Merge the Oct 7 data PR before Thursday's run.** It logs Wednesday's easy 3.51 mi (139 bpm,
+      the 160 BPM playlist experiment), adds your "no pain" account to Monday's run, and marks
+      Tuesday "Not run" with a pointer to Wednesday rather than a bare "Missed". `DATA_THROUGH` is
+      Oct 6. No session changes.
+- [ ] **Still open on Monday's and Wednesday's runs:** any change to your stride, or any swelling
+      afterwards? Did Monday's mile 4 run downhill, and was music on? Still open from Oct 1: did
+      the early pain change your stride?
+- [ ] **Wednesday's strength session** didn't show up on the watch. If you did it, say so; if not,
+      Friday still works — the rule is only never the day of, or the day before, a long run.
 
 ## Before Phase 3 (new views)
 

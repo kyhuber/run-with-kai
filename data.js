@@ -49,9 +49,14 @@ window.GOAL_PACE = "7:42";
 // until the Monday-evening run, so Oct 2-4 are complete days with nothing in them -- the
 // first three days of Block 1, which had no sessions anyway. Oct 5 was still running at the
 // pull; its run is logged regardless.
-window.DATA_THROUGH = "2026-10-04";
+//
+// Oct 6, from the Oct 7 pull at 18:17 Pacific. HealthKit returned exactly two workouts between
+// Oct 5 19:00 and Oct 7 18:30 -- the Oct 5 run already logged and the Wednesday-evening run -- so
+// the rest of Oct 5 and all of Oct 6 are complete, and Oct 6 had no workout. Oct 7 was still
+// running at the pull; its run is logged regardless.
+window.DATA_THROUGH = "2026-10-06";
 
-// Logged runs. Seeded from Apple Health; latest merge Oct 5, 2026 (the Oct 5 export) via the
+// Logged runs. Seeded from Apple Health; latest merge Oct 7, 2026 (the Oct 7 exports) via the
 // run-health-exports Drive pipeline (see skills/run-training-analysis/SKILL.md).
 // Runs under 1.0 mi are excluded (accidental / partial recordings).
 // Fields: date (YYYY-MM-DD), dist (mi), mins — hrAvg / hrMax / elev optional.
@@ -830,11 +835,14 @@ window.SEEDED_ACTUALS = [
   // which is display rounding. The last split is Apple's measured 9 s fragment, which it shows at
   // 8:11/mi; at this resolution its pace cannot be recomputed from the rounded distance and time.
   // Weather showed 17 degrees with no unit (almost certainly Celsius), so no temperature is
-  // entered. Kai's account, including the knee and quad, had not been given at the pull: no
-  // `note` until it arrives, and the monitoring-rule flag below says so rather than implying
-  // the answers were "no".
+  // entered. Kai's account arrived with the Oct 7 pulls (export-2026-10-07-1830b-corrects): no
+  // pain whatsoever in the knee or the quad. It did not cover stride or swelling, and the
+  // monitoring-rule flag below is that export's replacement, which says so. Whether mile 4 ran
+  // downhill and whether music was on are still unanswered. Resting HR for Oct 5 settled at 76
+  // over the full day, not the 71 the 19:47 pull showed; the last flag keeps the export's words.
   {date:"2026-10-05", dist:4.02, mins:33.14, hrAvg:154, hrMax:167, cadenceAvg:164,
    elevGainFt:296, elev:"296 ft gain",
+   note:"No pain whatsoever in the knee or the quad. (Given Oct 7.)",
    flags:[
      "Unscheduled run on a Monday. If Tuesday's planned easy run also happens, the two are back-to-back.",
      "A progression: 8:51, 8:27, 8:06, 7:30, then the final 0.02 mi at 8:11/mi. Every full mile ran faster than Block 1's Easy band (9:30-10:15) and Group band (9:00-9:30); mile 4 sits at the fast edge of the Tempo band (7:30-7:51).",
@@ -845,7 +853,7 @@ window.SEEDED_ACTUALS = [
      "Zone boundaries as displayed on this Heart Rate screen on Oct 5: Z1 <138, Z2 139-148, Z3 149-159, Z4 160-169, Z5 170+. Apple has moved them down one beat from the Oct 2 view (Z1 <139, Z2 140-149) and two from the Aug 25 snapshot (Z1 <140, Z2 141-149): the Zone 2 ceiling is now 148.",
      "Cadence 164 spm average, just under the 165-170 band his music anchors (Oct 1: 168, Sep 27: 170). Whether music was on was not recorded. Observation only, not a target.",
      "Running dynamics (workout averages) of 9.83 cm / 261 ms / 1.21 m sit close to the Sep 19 race averages (9.8 cm / 252 ms / 1.2 m) at a similar average pace. Observation only.",
-     "Knee/quad, per the monitoring rule: Kai's account not yet given at the time of this pull -- pain, any change to his stride, and any swelling are all unasked-and-unanswered here, not reported absent.",
+     "Knee/quad, per the monitoring rule: no pain reported on this run, which carried 296 ft of gain over 4.02 mi and a closing mile at 7:30/mi. Any change to his stride and any swelling were not addressed in his account -- unasked directly, not reported absent.",
      "Resting HR 85 on Sat Oct 3 and 80 on Sun Oct 4, back to 71 on Mon Oct 5. Context only.",
      "Apple effort rating 6, 'Moderate'; average power 258 W. Evening start around sunset, humidity 77%, air quality index 60. Temperature shown without a unit, so not entered.",
    ],
@@ -855,6 +863,44 @@ window.SEEDED_ACTUALS = [
      {mi:3, mins:8.100, hrAvg:157},
      {mi:4, mins:7.500, hrAvg:157},
      {mi:4.02, mins:0.150, hrAvg:162},
+   ]},
+  // Wed Oct 7, Block 1 week 1: an easy 3.51 mi on the day blocks.js has strength, the day after
+  // Tuesday's recovery run did not happen. 9:30 / 10:00 / 9:11 and 9:15/mi over the closing
+  // 0.51 mi, 9:31/mi overall, at 139 bpm with heart rate flat across the splits -- Zone 2 by
+  // average, and inside Block 1's Easy band (9:30-10:15). The fourth flag measures it against
+  // the 10:00-10:30 baseline from the skill, which is older than that band; it stays as written.
+  // Distance is HealthKit's 5646 m (3.508 mi) written as 3.51; Fitness shows 3.50 because it
+  // truncates. `mins` is moving time, 33:24 against 36:58 elapsed: the ~3:35 gap is a pause near
+  // the end to chat with a neighbour, per Kai. Splits are Apple's own, transcribed; the last is
+  // Apple's measured 0.51 mi partial, not inferred. Built from export-2026-10-07-1830-corrects
+  // (the full corrected row, replacing the 1817 row) with Kai's answers from 1837-corrects: its
+  // cadence flag replaces 1830's, which read 160 spm as a drift with music unrecorded, and its
+  // effort flag is added. Weather: sunny, 71% humidity, temperature shown as 18 with no unit
+  // (almost certainly Celsius), so no temperature is entered.
+  {date:"2026-10-07", dist:3.51, mins:33.4, hrAvg:139, hrMax:156, cadenceAvg:160,
+   elevGainFt:151, elev:"151 ft gain",
+   note:"Felt very easy. Ran to a 160 BPM playlist on purpose, to see whether he would notice " +
+        "the difference. The pause near the end was to chat with a neighbour, after which he ran " +
+        "the last 0.2 mi or so to reach 3.5 mi; with a long stop like that he may end the " +
+        "workout next time rather than pause it. No pain whatsoever in the knee or the quad. " +
+        "Effort rated 2, Easy. (Given Oct 7.)",
+   flags:[
+     "Easy by heart rate: 139 avg, 156 max. Apple's time-in-zone estimate: Z1 12:08, Z2 16:51, Z3 2:48, Z4 0:00, Z5 0:00 -- 28:59 of the 31:47 tracked sits in Z1-Z2 and nothing is above Z3. The 31:47 total is 1:36 short of the 33:23 workout time, so the heart-rate record is not complete.",
+     "Pace 9:30, 10:00, 9:11, then 9:15/mi over the final 0.51 mi, 9:31/mi overall. Heart rate is flat across the splits (136, 141, 138, 136) with no upward drift. Mile 2 was the slowest split and carried the highest heart rate (141); per-split elevation was not available and the whole run had only 151 ft of gain, so whether mile 2 included a climb is unconfirmed.",
+     "Cadence 160 spm equals the playlist's 160 BPM: a deliberate experiment, not a drift below the 165-170 band. Observation only, not a target.",
+     "151 ft of gain over 3.51 mi, about 43 ft/mi -- flatter than Oct 5 (296 ft over 4.02 mi, about 74 ft/mi) and Sep 27 (299 ft over 3.14 mi, about 95 ft/mi).",
+     "Against the 10:00-10:30/mi easy-pace band in the project baseline (calibrated to the old 142 bpm ceiling), this run averaged roughly 30-60 s/mi faster while staying inside the current Zone 2 ceiling of 148. One data point; whether the band is conservative is the consumer's call.",
+     "Elapsed time is 0:36:58 against 0:33:23 workout time, so about 3:35 was not counted as moving. Per Kai, that was a pause near the very end of the run to chat with a neighbor, followed by about 0.2 mi more to reach 3.5 mi. A social stop, not a pain stop. The sparse heart-rate stretch the earlier row noted at roughly 17:28-17:31 is not covered by his account.",
+     "Zone boundaries as displayed on this Heart Rate screen on Oct 7: Z1 under 138, Z2 139-148, Z3 149-159, Z4 160-169, Z5 170+. Identical to the Oct 5 view, so the HR_ZONES update flagged in the Oct 5 export still stands and nothing further has moved.",
+     "Running dynamics (workout averages) of 9.34 cm / 285 ms / 1.05 m against 9.83 cm / 261 ms / 1.21 m on Oct 5, which was run about 76 s/mi faster. Ground contact lengthens and stride shortens at slower paces, so no read is made. No per-mile dynamics were pulled. Observation only.",
+     "Knee/quad, per the monitoring rule: Kai reports no pain whatsoever in the knee or the quad on this run. Any change to his stride and any swelling were not addressed in his account -- unasked directly, not reported absent.",
+     "Effort is Easy (2), set by Kai in Fitness. The first summary screenshot, taken before he changed it, showed Moderate.",
+   ],
+   splits:[
+     {mi:1, mins:9.500, hrAvg:136},
+     {mi:2, mins:10.000, hrAvg:141},
+     {mi:3, mins:9.183, hrAvg:138},
+     {mi:3.51, mins:4.700, hrAvg:136},
    ]},
 ];
 
@@ -1027,6 +1073,11 @@ window.RESTING_HR = [
   {date:"2026-10-02", bpm:72},
   {date:"2026-10-03", bpm:85},
   {date:"2026-10-04", bpm:80},
+  // Oct 5-6 from the Oct 7 pull, both complete days. Oct 5 settled at 76 over the full day
+  // against the provisional 71 at the 19:47 pull -- the evening of the hard progression. Oct 6,
+  // a day with no workout, is 72. Oct 7 was still running at the pull, so not entered.
+  {date:"2026-10-05", bpm:76},
+  {date:"2026-10-06", bpm:72},
 ];
 
 // Daily heart-rate variability (SDNN, milliseconds), as reported by the exports. The pipeline
@@ -1079,4 +1130,8 @@ window.HRV = [
   {date:"2026-10-02", sdnnMs:52.3},
   {date:"2026-10-03", sdnnMs:22.2},
   {date:"2026-10-04", sdnnMs:28.1},
+  // Oct 5-6 from the Oct 7 pull's notes, both complete days. Oct 5 held at 39.8, the figure the
+  // 19:47 pull had shown provisionally; Oct 6 is 34.6. No reading yet for Oct 7.
+  {date:"2026-10-05", sdnnMs:39.8},
+  {date:"2026-10-06", sdnnMs:34.6},
 ];

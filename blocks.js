@@ -294,7 +294,10 @@ window.BLOCKS = [
     plan:[
       // Week 1 (Oct 3-9) — Rebuild. Two runs: the block opens mid-week.
       {date:"2026-10-06", day:"Tue", type:"Easy", desc:"Recovery run — the slowest run of the week, conversational the whole way. If heart rate won't stay in Zone 2, slow down or walk a minute. Foam roll first; cue on.", dist:3,
-       adjusted:"Changed Oct 5: strides moved to Thursday, because Monday's unplanned run already closed at 7:30. Skip today if the knee or quad hurts in a way that changes your stride, or if there's any swelling."},
+       adjusted:"Changed Oct 5: strides moved to Thursday, because Monday's unplanned run already closed at 7:30. Skip today if the knee or quad hurts in a way that changes your stride, or if there's any swelling.",
+       // The Oct 7 pull shows no workout on Oct 6. Kai gave no reason, so none is written; the
+       // line only says where the easy run went, so the row does not read as a bare "Missed".
+       skipped:"No run Tuesday. An easy 3.5 mi followed on Wednesday, logged below."},
       {date:"2026-10-07", day:"Wed", type:"Strength", desc:"Strength — 20-30 min of the single-leg base from the PT's sheet (bridges, single-leg squats, lateral lunges, balance, hops)", dist:0},
       {date:"2026-10-08", day:"Thu", type:"Easy", desc:"Easy run + 4×20 s strides — true Zone 2, hold back, then four relaxed pickups on flat ground with a full walk back between. Club run substitutes if it falls on Thursday; skip the strides then", dist:3.5,
        adjusted:"Changed Oct 5: the strides moved here from Tuesday."},
